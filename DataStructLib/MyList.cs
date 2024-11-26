@@ -4,9 +4,6 @@ public class MyList
 {
     private static object[] _innerArray = new object[10];
     
-    // Clear()
-    // object[] ToArray()
-    
     public static object[]? MyAdd(object[] array, object item)
     {
         _innerArray = new object[array.Length + 1];
@@ -108,5 +105,25 @@ public class MyList
         }
 
         array[^1] = default;
+    }
+    
+    public static void MyClear(object?[] arr)
+    {
+        for (int i = 0; i < arr.Length; i++)
+        {
+            arr[i] = default;
+        }
+    }
+    
+    public static object[] MyToArray(object?[] arr)
+    {
+        object[] newArray = new object[arr.Length];
+        
+        for (int i = 0; i < arr.Length; i++)
+        {
+            newArray[i] = arr[i]!;
+        }
+        
+        return newArray;
     }
 }
