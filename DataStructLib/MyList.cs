@@ -2,51 +2,82 @@
 
 public class MyList
 {
-    private static object[] _innerArray = new object[10];
+    private object[] _innerArray = new object[10];
     
-    public static object[]? MyAdd(object[] array, object item)
-    {
-        _innerArray = new object[array.Length + 1];
-        
-        for (int i = 0; i < array.Length; i++)
-        {
-            _innerArray[i] = array[i];
-        }
+    public int Count { get; private set; }
 
-        _innerArray[array.Length] = item;
-        
-        return _innerArray;
+    public object this[int i]
+    {
+        get
+        {
+            return _innerArray[i];
+        }
+        set
+        {
+            _innerArray[i] = value;
+        }
     }
     
-    public static object[]? MyInsert(object[] array, int index, object item)
+    public void MyAdd(object item)
     {
-        if (index < 0 || index > array.Length)
+        if ( Count >= _innerArray.Length)
+        {
+            Increase();
+        }
+
+        _innerArray[Count] = item;
+        Count++;
+    }
+
+    private void Increase()
+    {
+        int newSize = _innerArray.Length * 2;
+        
+        object[] newArray = new object[newSize];
+        
+        MyCopy(_innerArray, newArray, Count);
+
+        _innerArray = newArray;
+    }
+    
+    private void MyCopy(
+        object[] destinationArray,
+        object[] copiedArray,
+        int count)
+    {
+        for (int i = 0; i < count; i++)
+        {
+            destinationArray[i] = copiedArray[i];
+        }
+    }
+    
+    public void MyInsert(int index, object item)
+    {
+        if (index < 0 || index > _innerArray.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        var newArray = new object[array.Length + 1];
+        var newArray = new object[_innerArray.Length + 1];
         
-        for (int i = 0; i < index; i++)
-        {
-            newArray[i] = array[i];
-        }
+        MyCopy(newArray, _innerArray, index);
         
         newArray[index] = item;
 
-        for (int i = index; i < array.Length; i++)
+        for (int i = index; i < _innerArray.Length; i++)
         {
-            newArray[i + 1] = array[i];
+            newArray[i + 1] = _innerArray[i];
         }
 
-        return newArray;
+        _innerArray = newArray;
+        Count++;
     }
     
-    public static int MyIndexOf(object[] array, object item)
+    public int MyIndexOf(object item)
     {
-        for (int i = 0; i < array.Length; i++)
+        for (int i = 0; i < _innerArray.Length; i++)
         {
-            if (array[i].Equals(item))
+            if (_innerArray[i] != null && _innerArray[i].Equals(item))
             {
                 return i;
             }
@@ -55,73 +86,71 @@ public class MyList
         return -1;
     }
     
-    public static bool MyContains(object[] array, object item)
+    public bool MyContains(object item)
     {
-        if (MyIndexOf(array, item) >= 0) { return true; }
+        if (MyIndexOf(item) >= 0) { return true; }
 
         return false;
     }
     
-    public static object[] MyReverse(object[] arr)
+    public void MyReverse()
     {
         int left = 0;
-        int right = arr.Length - 1;
+        int right = Count - 1;
 
         while (left < right)
         {
-            var temp = arr[left];
-            arr[left] = arr[right];
-            arr[right] = temp;
+            var temp = _innerArray[left];
+            _innerArray[left] = _innerArray[right];
+            _innerArray[right] = temp;
 
             left++;
             right--;
         }
-        
-        return arr;
     }
     
-    public static bool MyRemove(object[] arr, object item)
+    public bool MyRemove(object item)
     {
-        int index = MyIndexOf(arr, item);
+        int index = MyIndexOf(item);
         if (index >= 0)
         {
-            MyRemoveAt(arr, index);
+            MyRemoveAt(index);
             return true;
         }
 
         return false;
     }
     
-    public static void MyRemoveAt(object?[] array, int index)
+    public void MyRemoveAt(int index)
     {
-        if (index < 0 || index > array.Length)
+        if (index < 0 || index > _innerArray.Length)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        for (int i = index; i < array.Length - 1; i++)
+        for (int i = index; i < _innerArray.Length - 1; i++)
         {
-            array[i] = array[i + 1];
+            _innerArray[i] = _innerArray[i + 1];
         }
 
-        array[^1] = default;
+        _innerArray[^1] = default!;
     }
     
-    public static void MyClear(object?[] arr)
+    public void MyClear()
     {
-        for (int i = 0; i < arr.Length; i++)
+        for (int i = 0; i < _innerArray.Length; i++)
         {
-            arr[i] = default;
+            _innerArray[i] = default!;
         }
     }
     
-    public static object[] MyToArray(object?[] arr)
+    public object[] MyToArray()
     {
-        object[] newArray = new object[arr.Length];
+        object[] newArray = new object[Count];
         
-        for (int i = 0; i < arr.Length; i++)
+        for (int i = 0; i < Count; i++)
         {
-            newArray[i] = arr[i]!;
+            newArray[i] = _innerArray[i]!;
         }
         
         return newArray;
