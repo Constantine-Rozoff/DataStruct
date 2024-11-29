@@ -3,7 +3,7 @@ using NUnit.Framework;
 
 namespace Tests;
 
-public class Tests
+public class ListTests
 {
     [Test]
     public void MyAddMethodTest()

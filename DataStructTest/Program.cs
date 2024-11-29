@@ -1,4 +1,5 @@
-﻿using DataStructLib;
+﻿using System.Threading.Channels;
+using DataStructLib;
 
 namespace DataStructTest;
 
@@ -7,106 +8,37 @@ class Program
     //Draft area. It's able to show a particular output of the methods
     static void Main(string[] args)
     {
-        Console.WriteLine("-----Initial Count-----");
+        MyLinkedList list = new MyLinkedList();
+        list.Add(1);
+        list.Add(2);
+        list.Add(3);
         
-        MyList list = new MyList();
-        var listCount = list.Count;
-        Console.WriteLine(listCount);
+        list.AddFirst(5);
+        list.Add(77);
         
-        Console.WriteLine("-----My Add-----");
-        list.MyAdd(50);
+        list.PrintLinkedList();
 
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
+        Console.WriteLine(list.Contains(5));
+        Console.WriteLine(list.Contains(2));
+        Console.WriteLine(list.Contains(100));
         
-        listCount = list.Count;
-        Console.WriteLine(listCount);
-
-
-        list.MyAdd(1);
-        list.MyAdd(2);
-        list.MyAdd(3);
+        list.Insert(2, 100);
         
-        Console.WriteLine("----");
-
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
+        Console.WriteLine(list.Count);
         
-        Console.WriteLine("-----My Insert-----");
+        list.PrintLinkedList();
         
-        list.MyInsert(1, 44);
-
-        list.MyInsert(5, 77);
+        object[] array = list.ToArray();
         
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
-
-        Console.WriteLine("-----My Index Of-------");
-
-        Console.WriteLine(list.MyIndexOf(77));
-        Console.WriteLine(list.MyIndexOf(111));
+        Console.WriteLine(string.Join(" ", array));
         
-        Console.WriteLine("-----My Contains-------");
+        Console.WriteLine(list.First);
+        Console.WriteLine(list.Last);
         
-        Console.WriteLine(list.MyContains(-1));
-        Console.WriteLine(list.MyContains(5));
-        Console.WriteLine(list.MyContains(77));
-
-        Console.WriteLine("---Reverse----");
+        list.Clear();
         
-        list.MyReverse();
+        list.PrintLinkedList();
         
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
-        
-        Console.WriteLine("---Remove----");
-
-        list?.MyRemove(44);
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
-        
-        Console.WriteLine("---RemoveAT----");
-
-        list?.MyRemoveAt(0);
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i]);
-            }
-        
-        Console.WriteLine("---ToArray----");
-
-        var resultedArray = list?.MyToArray();
-        if (resultedArray == null) return;
-        {
-            foreach (var t in resultedArray)
-            {
-                Console.WriteLine(t);
-            }
-        }
-        
-        Console.WriteLine("---Clear----");
-
-        list?.MyClear();
-        if (list != null)
-            for (int i = 0; i < list.Count; i++)
-            {
-                Console.WriteLine(list[i] + "item");
-            }
+        Console.WriteLine(list.Count);
     }
 }
