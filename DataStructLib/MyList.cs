@@ -10,34 +10,49 @@ public class MyList
     {
         get
         {
+            if (i < 0 || i > _innerArray.Length)
+            {
+                throw new IndexOutOfRangeException("Index out of range");
+            }
+            
             return _innerArray[i];
         }
+        
         set
         {
+            if (i < 0 || i > _innerArray.Length)
+            {
+                throw new IndexOutOfRangeException("Index out of range");
+            }
+            
+            if (_innerArray[i].Equals(null))
+            {
+                throw new InvalidOperationException("Index points on null value");
+            }
+            
             _innerArray[i] = value;
         }
     }
     
     public void MyAdd(object item)
     {
-        if ( Count >= _innerArray.Length)
-        {
-            Increase();
-        }
-
+        _innerArray = Increase();
+        
         _innerArray[Count] = item;
         Count++;
     }
 
-    private void Increase()
+    private object[] Increase()
     {
         int newSize = _innerArray.Length * 2;
-        
+    
         object[] newArray = new object[newSize];
-        
-        MyCopy(_innerArray, newArray, Count);
+    
+        MyCopy(newArray, _innerArray, Count);
 
         _innerArray = newArray;
+
+        return _innerArray;
     }
     
     private void MyCopy(
@@ -58,13 +73,13 @@ public class MyList
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        var newArray = new object[_innerArray.Length + 1];
+        var newArray = Increase();
         
         MyCopy(newArray, _innerArray, index);
         
         newArray[index] = item;
 
-        for (int i = index; i < _innerArray.Length; i++)
+        for (int i = index; i < _innerArray.Length - 1; i++)
         {
             newArray[i + 1] = _innerArray[i];
         }
@@ -83,7 +98,7 @@ public class MyList
             }
         }
 
-        return -1;
+        return 0;
     }
     
     public bool MyContains(object item)
