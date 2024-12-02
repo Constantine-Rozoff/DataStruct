@@ -26,15 +26,22 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
+        myList.MyAdd(2);
+        myList.MyAdd(4);
         
         //act
         myList.MyInsert(1, 44);
-        myList.MyInsert(1, 77);
+        myList.MyInsert(2, 77);
+
+        for (int i = 0; i < myList.Count - 1; i++)
+        {
+            Console.WriteLine(myList[i]);
+        }
         
         //assert
         Assert.That(myList.MyContains(44), Is.True);
         Assert.That(myList.MyContains(77), Is.True);
-        Assert.That(myList.Count, Is.EqualTo(2));
+        Assert.That(myList.Count, Is.EqualTo(4));
     }
     
     [Test]
@@ -126,6 +133,8 @@ public class ListTests
         
         //act
         myList.MyClear();
+
+        Console.WriteLine(myList.Count);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(null));
