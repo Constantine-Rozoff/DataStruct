@@ -26,8 +26,11 @@ public class BinaryTree
         {
             _root = new Node(item);
         }
+        else
+        {
+            Add(_root, item);
+        }
         
-        Add(_root, item);
         Count++;
     }
 
@@ -92,24 +95,28 @@ public class BinaryTree
     public int[] ToArray()
     {
         int[] newArray = new int[Count];
+        int index = 0;
 
         if (_root != null) 
-            InOrderTraversal(_root, newArray);
+            InOrderTraversal(_root, newArray, ref index);
         
         return newArray;
     }
     
-    private void InOrderTraversal(Node? node, int[] newArray)
+    private void InOrderTraversal(Node? node, int[] newArray, ref int index)
     {
         if (node != null)
         {
-            if (node.Left != null) 
-                InOrderTraversal(node.Left, newArray);
             
-            Console.WriteLine(node.Value);
+            if (node.Left != null) 
+                InOrderTraversal(node.Left, newArray, ref index);
+            
+            newArray[index] = node.Value;
+            index++;
+                //Console.WriteLine(node.Value);
             
             if (node.Right != null) 
-                InOrderTraversal(node.Right, newArray);
+                InOrderTraversal(node.Right, newArray, ref index);
         }
     }
 

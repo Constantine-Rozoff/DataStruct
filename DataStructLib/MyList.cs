@@ -10,7 +10,7 @@ public class MyList
     {
         get
         {
-            if (i < 0 || i > _innerArray.Length)
+            if (i < 0 || i > Count)
             {
                 throw new IndexOutOfRangeException("Index out of range");
             }
@@ -20,14 +20,9 @@ public class MyList
         
         set
         {
-            if (i < 0 || i > _innerArray.Length)
+            if (i < 0 || i > Count)
             {
                 throw new IndexOutOfRangeException("Index out of range");
-            }
-            
-            if (_innerArray[i].Equals(null))
-            {
-                throw new InvalidOperationException("Index points on null value");
             }
             
             _innerArray[i] = value;
@@ -36,7 +31,10 @@ public class MyList
     
     public void MyAdd(object item)
     {
-        _innerArray = Increase();
+        if (Count >= _innerArray.Length)
+        {
+            _innerArray = Increase();
+        }
         
         _innerArray[Count] = item;
         Count++;
@@ -98,7 +96,7 @@ public class MyList
             }
         }
 
-        return 0;
+        return -1;
     }
     
     public bool MyContains(object item)
