@@ -2,7 +2,21 @@ namespace DataStructLib;
 
 public class MyLinkedList
 {
+    public class Node
+    {
+        public Node? Next { get; set; }
+        public object Value { get; set; }
+
+        public Node(object value)
+        {
+            Value = value;
+            Next = null;
+        }
+    }
+    
     private Node? root;
+    private Node? last;
+    public int Count { get; private set; }
     
     public object? First
     {
@@ -29,45 +43,20 @@ public class MyLinkedList
             return current.Value;
         }
     }
-    
-    public int Count
-    {
-        get
-        {
-            int count = 0;
-            Node? current = root;
-            
-            while (current != null)
-            {
-                count++;
-                current = current.Next;
-            }
-            return count;
-        }
-    }
 
     public MyLinkedList()
     {
         root = null;
+        last = null;
     }
 
-    public class Node
-    {
-        public Node? Next { get; set; }
-        public object Value { get; set; }
-
-        public Node(object value)
-        {
-            Value = value;
-            Next = null;
-        }
-    }
 
     public void AddFirst(object value)
     {
         Node? newNode = new Node(value);
         newNode.Next = root;
         root = newNode;
+        Count++;
     }
     
     public void Add(object value)
@@ -76,7 +65,7 @@ public class MyLinkedList
 
         if (root == null)
         {
-            root = newNode;
+            AddFirst(value);
         }
         else
         {
@@ -87,6 +76,7 @@ public class MyLinkedList
             }
 
             current.Next = newNode;
+            Count++;
         }
     }
     
@@ -122,6 +112,7 @@ public class MyLinkedList
 
         newNode.Next = current.Next;
         current.Next = newNode;
+        Count++;
     }
 
     public bool Contains(object value)
@@ -142,6 +133,7 @@ public class MyLinkedList
     public void Clear()
     {
         root = null;
+        Count = 0;
     }
     
     public object[] ToArray()

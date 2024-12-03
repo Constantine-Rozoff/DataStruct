@@ -8,37 +8,29 @@ class Program
     //Draft area. It's able to show a particular output of the methods
     static void Main(string[] args)
     {
-        MyLinkedList list = new MyLinkedList();
-        list.Add(1);
-        list.Add(2);
-        list.Add(3);
+        BinaryTree myTree = new BinaryTree();
         
-        list.AddFirst(5);
-        list.Add(77);
-        
-        list.PrintLinkedList();
+        myTree.Add(10);
+        myTree.Add(20);
+        myTree.Add(5);
+        myTree.Add(1);
+        myTree.Add(111);
 
-        Console.WriteLine(list.Contains(5));
-        Console.WriteLine(list.Contains(2));
-        Console.WriteLine(list.Contains(100));
+        Console.WriteLine(myTree.Count);
+
+        Console.WriteLine(myTree.Contains(20));
+        Console.WriteLine(myTree.Contains(50));
         
-        list.Insert(2, 100);
+        int[] intArray = myTree.ToArray();
+        Console.WriteLine(intArray.Length);
+        Console.WriteLine(intArray[0]);
         
-        Console.WriteLine(list.Count);
+        myTree.Clear();
+
+        Console.WriteLine("---After Clear----");
         
-        list.PrintLinkedList();
-        
-        object[] array = list.ToArray();
-        
-        Console.WriteLine(string.Join(" ", array));
-        
-        Console.WriteLine(list.First);
-        Console.WriteLine(list.Last);
-        
-        list.Clear();
-        
-        list.PrintLinkedList();
-        
-        Console.WriteLine(list.Count);
+        Console.WriteLine(myTree.Contains(20));
+        Console.WriteLine(myTree.Contains(50));
+        Console.WriteLine(myTree.Count);
     }
 }
