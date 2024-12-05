@@ -1,6 +1,8 @@
-﻿namespace DataStructLib;
+﻿using DataStructInterfaces;
 
-public class MyList
+namespace DataStructLib;
+
+public class MyList : IMyList
 {
     private object[] _innerArray = new object[10];
     
@@ -29,7 +31,7 @@ public class MyList
         }
     }
     
-    public void MyAdd(object item)
+    public void Add(object item)
     {
         _innerArray = Increase();
         
@@ -86,12 +88,13 @@ public class MyList
         _innerArray = newArray;
         Count++;
     }
-    
-    public int MyIndexOf(object item)
+
+    public int MyIndexOf(IMyList item)
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
-            if (_innerArray[i] != null && _innerArray[i].Equals(item))
+            //if (_innerArray[i] != null && _innerArray[i].Equals(item))
+            if(_innerArray[i] != null && item.CompareTo(_innerArray[i]) == 0)
             {
                 return i;
             }
@@ -100,7 +103,7 @@ public class MyList
         return -1;
     }
     
-    public bool MyContains(object item)
+    public bool Contains(object item)
     {
         if (MyIndexOf(item) >= 0) { return true; }
 
@@ -168,5 +171,10 @@ public class MyList
         }
         
         return newArray;
+    }
+
+    public int CompareTo(object? obj)
+    {
+        throw new NotImplementedException();
     }
 }
