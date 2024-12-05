@@ -31,25 +31,26 @@ public class MyList
     
     public void MyAdd(object item)
     {
-        if (Count >= _innerArray.Length)
-        {
-            _innerArray = Increase();
-        }
+        _innerArray = Increase();
         
         _innerArray[Count] = item;
+        
         Count++;
     }
 
     private object[] Increase()
     {
-        int newSize = _innerArray.Length * 2;
+        if (Count >= _innerArray.Length)
+        {
+            int newSize = _innerArray.Length * 2;
     
-        object[] newArray = new object[newSize];
+            object[] newArray = new object[newSize];
     
-        MyCopy(newArray, _innerArray, Count);
+            MyCopy(newArray, _innerArray, Count);
 
-        _innerArray = newArray;
-
+            _innerArray = newArray;
+        }
+        
         return _innerArray;
     }
     

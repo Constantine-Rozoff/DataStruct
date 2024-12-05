@@ -113,7 +113,6 @@ public class BinaryTree
             
             newArray[index] = node.Value;
             index++;
-                //Console.WriteLine(node.Value);
             
             if (node.Right != null) 
                 InOrderTraversal(node.Right, newArray, ref index);
