@@ -6,7 +6,7 @@ public class MyList : IMyList
 {
     private object[] _innerArray = new object[10];
     
-    public int Count { get; private set; }
+    public int Count { get; set; }
 
     public object this[int i]
     {
@@ -48,7 +48,7 @@ public class MyList : IMyList
     
             object[] newArray = new object[newSize];
     
-            MyCopy(newArray, _innerArray, Count);
+            Copy(newArray, _innerArray, Count);
 
             _innerArray = newArray;
         }
@@ -56,7 +56,7 @@ public class MyList : IMyList
         return _innerArray;
     }
     
-    private void MyCopy(
+    private void Copy(
         object[] destinationArray,
         object[] copiedArray,
         int count)
@@ -67,7 +67,7 @@ public class MyList : IMyList
         }
     }
     
-    public void MyInsert(int index, object item)
+    public void Insert(int index, object item)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -76,7 +76,7 @@ public class MyList : IMyList
         
         var newArray = Increase();
         
-        MyCopy(newArray, _innerArray, index);
+        Copy(newArray, _innerArray, index);
         
         newArray[index] = item;
 
@@ -89,12 +89,11 @@ public class MyList : IMyList
         Count++;
     }
 
-    public int MyIndexOf(IMyList item)
+    public int IndexOf(object item)
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
-            //if (_innerArray[i] != null && _innerArray[i].Equals(item))
-            if(_innerArray[i] != null && item.CompareTo(_innerArray[i]) == 0)
+            if (_innerArray[i] != null && _innerArray[i].Equals(item))
             {
                 return i;
             }
@@ -105,12 +104,12 @@ public class MyList : IMyList
     
     public bool Contains(object item)
     {
-        if (MyIndexOf(item) >= 0) { return true; }
+        if (IndexOf(item) >= 0) { return true; }
 
         return false;
     }
     
-    public void MyReverse()
+    public void Reverse()
     {
         int left = 0;
         int right = Count - 1;
@@ -125,20 +124,20 @@ public class MyList : IMyList
             right--;
         }
     }
-    
-    public bool MyRemove(object item)
+
+    public bool Remove(object item)
     {
-        int index = MyIndexOf(item);
+        int index = IndexOf(item);
         if (index >= 0)
         {
-            MyRemoveAt(index);
+            RemoveAt(index);
             return true;
         }
 
         return false;
     }
     
-    public void MyRemoveAt(int index)
+    public void RemoveAt(int index)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -153,7 +152,7 @@ public class MyList : IMyList
         _innerArray[^1] = default!;
     }
     
-    public void MyClear()
+    public void Clear()
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
@@ -161,7 +160,7 @@ public class MyList : IMyList
         }
     }
     
-    public object[] MyToArray()
+    public object[] ToArray()
     {
         object[] newArray = new object[Count];
         
@@ -171,10 +170,5 @@ public class MyList : IMyList
         }
         
         return newArray;
-    }
-
-    public int CompareTo(object? obj)
-    {
-        throw new NotImplementedException();
     }
 }

@@ -1,6 +1,5 @@
 using DataStructLib;
 using NUnit.Framework;
-using DataStructInterfaces;
 
 namespace Tests;
 
@@ -15,7 +14,6 @@ public class ListTests
         //act
         myList.Add(5);
         myList.Add(10);
-        myList
         
         //assert
         Assert.That(myList.Contains(5), Is.True);
@@ -32,8 +30,8 @@ public class ListTests
         myList.Add(4);
         
         //act
-        myList.MyInsert(1, 44);
-        myList.MyInsert(2, 77);
+        myList.Insert(1, 44);
+        myList.Insert(2, 77);
 
         for (int i = 0; i < myList.Count - 1; i++)
         {
@@ -55,8 +53,8 @@ public class ListTests
         myList.Add(10);
         
         //act
-        var index1 = myList.MyIndexOf(5);
-        var index2 = myList.MyIndexOf(10);
+        var index1 = myList.IndexOf(5);
+        var index2 = myList.IndexOf(10);
         
         //assert
         Assert.That(index1, Is.EqualTo(0));
@@ -86,7 +84,7 @@ public class ListTests
         myList.Add(10);
         
         //act
-        myList.MyReverse();
+        myList.Reverse();
         
         //assert
         Assert.That(myList[0], Is.EqualTo(10));
@@ -102,7 +100,7 @@ public class ListTests
         myList.Add(10);
         
         //act
-        myList.MyRemove(10);
+        myList.Remove(10);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(5));
@@ -118,7 +116,7 @@ public class ListTests
         myList.Add(10);
         
         //act
-        myList.MyRemoveAt(0);
+        myList.RemoveAt(0);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(10));
@@ -134,7 +132,7 @@ public class ListTests
         myList.Add(10);
         
         //act
-        myList.MyClear();
+        myList.Clear();
 
         Console.WriteLine(myList.Count);
         
@@ -152,7 +150,7 @@ public class ListTests
         myList.Add(10);
         
         //act
-        Array array = myList.MyToArray();
+        Array array = myList.ToArray();
         
         //assert
         Assert.That(array.Length, Is.EqualTo(2));
