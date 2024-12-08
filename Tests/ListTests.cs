@@ -12,12 +12,12 @@ public class ListTests
         MyList myList = new MyList();
         
         //act
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //assert
-        Assert.That(myList.MyContains(5), Is.True);
-        Assert.That(myList.MyContains(10), Is.True);
+        Assert.That(myList.Contains(5), Is.True);
+        Assert.That(myList.Contains(10), Is.True);
         Assert.That(myList.Count, Is.EqualTo(2));
     }
     
@@ -26,12 +26,12 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(2);
-        myList.MyAdd(4);
+        myList.Add(2);
+        myList.Add(4);
         
         //act
-        myList.MyInsert(1, 44);
-        myList.MyInsert(2, 77);
+        myList.Insert(1, 44);
+        myList.Insert(2, 77);
 
         for (int i = 0; i < myList.Count - 1; i++)
         {
@@ -39,8 +39,8 @@ public class ListTests
         }
         
         //assert
-        Assert.That(myList.MyContains(44), Is.True);
-        Assert.That(myList.MyContains(77), Is.True);
+        Assert.That(myList.Contains(44), Is.True);
+        Assert.That(myList.Contains(77), Is.True);
         Assert.That(myList.Count, Is.EqualTo(4));
     }
     
@@ -49,12 +49,12 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        var index1 = myList.MyIndexOf(5);
-        var index2 = myList.MyIndexOf(10);
+        var index1 = myList.IndexOf(5);
+        var index2 = myList.IndexOf(10);
         
         //assert
         Assert.That(index1, Is.EqualTo(0));
@@ -66,13 +66,13 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act and assert
-        Assert.That(myList.MyContains(5), Is.True);
-        Assert.That(myList.MyContains(10), Is.True);
-        Assert.That(myList.MyContains(17), Is.False);
+        Assert.That(myList.Contains(5), Is.True);
+        Assert.That(myList.Contains(10), Is.True);
+        Assert.That(myList.Contains(17), Is.False);
     }
     
     [Test]
@@ -80,11 +80,11 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        myList.MyReverse();
+        myList.Reverse();
         
         //assert
         Assert.That(myList[0], Is.EqualTo(10));
@@ -96,11 +96,11 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        myList.MyRemove(10);
+        myList.Remove(10);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(5));
@@ -112,11 +112,11 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        myList.MyRemoveAt(0);
+        myList.RemoveAt(0);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(10));
@@ -128,11 +128,11 @@ public class ListTests
     {
         //arrange
         MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        myList.MyClear();
+        myList.Clear();
 
         Console.WriteLine(myList.Count);
         
@@ -145,12 +145,12 @@ public class ListTests
     public void MyToArrayMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
-        myList.MyAdd(5);
-        myList.MyAdd(10);
+        var myList = new MyList();
+        myList.Add(5);
+        myList.Add(10);
         
         //act
-        Array array = myList.MyToArray();
+        Array array = myList.ToArray();
         
         //assert
         Assert.That(array.Length, Is.EqualTo(2));

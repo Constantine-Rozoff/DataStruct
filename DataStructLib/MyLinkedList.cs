@@ -1,6 +1,8 @@
+using DataStructInterfaces;
+
 namespace DataStructLib;
 
-public class MyLinkedList
+public class MyLinkedList : IMyLinkedList
 {
     public class Node
     {
@@ -16,7 +18,7 @@ public class MyLinkedList
     
     private Node? root;
     private Node? last;
-    public int Count { get; private set; }
+    public int Count { get; set; }
     
     public object? First
     {
