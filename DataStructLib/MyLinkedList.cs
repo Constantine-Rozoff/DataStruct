@@ -1,10 +1,12 @@
+using DataStructInterfaces;
+
 namespace DataStructLib;
 
-public class MyLinkedList
+public class MyLinkedList : IMyLinkedList
 {
-    public class Node
+    public class Node : IListNode
     {
-        public Node? Next { get; set; }
+        public IListNode? Next { get; set; }
         public object Value { get; set; }
 
         public Node(object value)
@@ -14,7 +16,7 @@ public class MyLinkedList
         }
     }
     
-    private Node? root;
+    private IListNode root;
     private Node? last;
     public int Count { get; private set; }
     
@@ -35,7 +37,7 @@ public class MyLinkedList
             if (root == null)
                 throw new InvalidOperationException("Список пуст.");
 
-            Node current = root;
+            IListNode current = root;
             while (current.Next != null)
             {
                 current = current.Next;
@@ -69,7 +71,7 @@ public class MyLinkedList
         }
         else
         {
-            Node? current = root;
+            IListNode current = root;
             while (current.Next != null)
             {
                 current = current.Next;
@@ -87,9 +89,9 @@ public class MyLinkedList
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        Node? newNode = new Node(value);
+        IListNode? newNode = new Node(value);
         int currentIndex = 0;
-        Node? current = null;
+        IListNode? current = null;
 
         if (index == 0)
         {
@@ -117,7 +119,7 @@ public class MyLinkedList
 
     public bool Contains(object value)
     {
-        Node? current = root;
+        IListNode? current = root;
         while (current != null)
         {
             if (current.Value.Equals(value))
@@ -139,7 +141,7 @@ public class MyLinkedList
     public object[] ToArray()
     {
         int count = 0;
-        Node? current = root;
+        IListNode? current = root;
         while (current != null)
         {
             count++;
@@ -162,7 +164,7 @@ public class MyLinkedList
     
     public void PrintLinkedList()
     {
-        Node? current = root;
+        IListNode? current = root;
         while (current != null)
         {
             Console.Write(current.Value + " -> ");

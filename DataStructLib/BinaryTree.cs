@@ -1,8 +1,10 @@
+using DataStructInterfaces;
+
 namespace DataStructLib;
 
 public class BinaryTree
 {
-    public class Node
+    public class Node : ITreeNode
     {
         public Node(int value, Node? left = null, Node? right = null)
         {
@@ -11,8 +13,8 @@ public class BinaryTree
             Value = value;
         }
 
-        public Node? Left { get; set; }
-        public Node? Right { get; set; }
+        public ITreeNode? Left { get; set; }
+        public ITreeNode? Right { get; set; }
         public int Value { get; init; }
     }
 
@@ -34,7 +36,7 @@ public class BinaryTree
         Count++;
     }
 
-    private void Add(Node? current, int item)
+    private void Add(ITreeNode? current, int item)
     {
         if (current != null && item < current.Value)
         {
@@ -65,7 +67,7 @@ public class BinaryTree
         return _root != null && Contains(_root, item);
     }
 
-    private bool Contains(Node? current, int item)
+    private bool Contains(ITreeNode? current, int item)
     {
         if (current != null && item < current.Value)
         {
@@ -103,7 +105,7 @@ public class BinaryTree
         return newArray;
     }
     
-    private void InOrderTraversal(Node? node, int[] newArray, ref int index)
+    private void InOrderTraversal(ITreeNode? node, int[] newArray, ref int index)
     {
         if (node != null)
         {
