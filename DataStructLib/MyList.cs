@@ -2,13 +2,13 @@
 
 namespace DataStructLib;
 
-public class MyList : IMyList
+public class MyList<T> : IMyList<T>
 {
-    private object[] _innerArray = new object[10];
+    private T[] _innerArray = new T[10];
     
     public int Count { get; private set; }
 
-    public object this[int i]
+    public T? this[int i]
     {
         get
         {
@@ -27,11 +27,11 @@ public class MyList : IMyList
                 throw new IndexOutOfRangeException("Index out of range");
             }
             
-            _innerArray[i] = value;
+            _innerArray[i] = (T)value;
         }
     }
     
-    public void Add(object item)
+    public void Add(T? item)
     {
         _innerArray = Increase();
         
@@ -40,13 +40,13 @@ public class MyList : IMyList
         Count++;
     }
 
-    private object[] Increase()
+    private T[] Increase()
     {
         if (Count >= _innerArray.Length)
         {
             int newSize = _innerArray.Length * 2;
     
-            object[] newArray = new object[newSize];
+            T[] newArray = new T[newSize];
     
             Copy(newArray, _innerArray, Count);
 
@@ -57,8 +57,8 @@ public class MyList : IMyList
     }
     
     private void Copy(
-        object[] destinationArray,
-        object[] copiedArray,
+        T[] destinationArray,
+        T[] copiedArray,
         int count)
     {
         for (int i = 0; i < count; i++)
@@ -67,7 +67,7 @@ public class MyList : IMyList
         }
     }
     
-    public void Insert(int index, object item)
+    public void Insert(int index, T item)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -89,7 +89,7 @@ public class MyList : IMyList
         Count++;
     }
 
-    public int IndexOf(object item)
+    public int IndexOf(T item)
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
@@ -102,7 +102,7 @@ public class MyList : IMyList
         return -1;
     }
     
-    public bool Contains(object item)
+    public bool Contains(T item)
     {
         if (IndexOf(item) >= 0) { return true; }
 
@@ -125,7 +125,7 @@ public class MyList : IMyList
         }
     }
 
-    public bool Remove(object item)
+    public bool Remove(T item)
     {
         int index = IndexOf(item);
         if (index >= 0)
@@ -160,9 +160,9 @@ public class MyList : IMyList
         }
     }
     
-    public object[] ToArray()
+    public T[] ToArray()
     {
-        object[] newArray = new object[Count];
+        T[] newArray = new T[Count];
         
         for (int i = 0; i < Count; i++)
         {

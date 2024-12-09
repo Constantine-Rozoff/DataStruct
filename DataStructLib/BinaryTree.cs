@@ -2,23 +2,23 @@ using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class BinaryTree
+public class BinaryTree<T>
 {
-    public class Node : ITreeNode
+    public class Node<T> : ITreeNode<T>
     {
-        public Node(int value, Node? left = null, Node? right = null)
+        public Node(int value, ITreeNode<T>? left = null, ITreeNode<T>? right = null)
         {
             Left = left;
             Right = right;
             Value = value;
         }
 
-        public ITreeNode? Left { get; set; }
-        public ITreeNode? Right { get; set; }
+        public ITreeNode<T>? Left { get; set; }
+        public ITreeNode<T>? Right { get; set; }
         public int Value { get; init; }
     }
 
-    private Node? _root;
+    private ITreeNode<T>? _root;
     public int Count { get; private set; }
     
     
@@ -26,7 +26,7 @@ public class BinaryTree
     {
         if (_root == null)
         {
-            _root = new Node(item);
+            _root = new Node<T>(item);
         }
         else
         {
@@ -36,13 +36,13 @@ public class BinaryTree
         Count++;
     }
 
-    private void Add(ITreeNode? current, int item)
+    private void Add(ITreeNode<T>? current, int item)
     {
-        if (current != null && item < current.Value)
+        if (current != default && item < current.Value)
         {
             if (current.Left == null)
             {
-                current.Left = new Node(item);
+                current.Left = new Node<T>(item);
             }
             else
             {
@@ -53,7 +53,7 @@ public class BinaryTree
         {
             if (current.Right == null)
             {
-                current.Right = new Node(item);
+                current.Right = new Node<T>(item);
             }
             else
             {
@@ -67,7 +67,7 @@ public class BinaryTree
         return _root != null && Contains(_root, item);
     }
 
-    private bool Contains(ITreeNode? current, int item)
+    private bool Contains(ITreeNode<T>? current, int item)
     {
         if (current != null && item < current.Value)
         {
@@ -99,18 +99,18 @@ public class BinaryTree
         int[] newArray = new int[Count];
         int index = 0;
 
-        if (_root != null) 
+        if (_root != default) 
             InOrderTraversal(_root, newArray, ref index);
         
         return newArray;
     }
     
-    private void InOrderTraversal(ITreeNode? node, int[] newArray, ref int index)
+    private void InOrderTraversal(ITreeNode<T>? node, int[] newArray, ref int index)
     {
-        if (node != null)
+        if (node != default)
         {
             
-            if (node.Left != null) 
+            if (node.Left != default) 
                 InOrderTraversal(node.Left, newArray, ref index);
             
             newArray[index] = node.Value;
