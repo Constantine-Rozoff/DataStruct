@@ -6,7 +6,7 @@ public class MyList : IMyList
 {
     private object[] _innerArray = new object[10];
     
-    public int Count { get; set; }
+    public int Count { get; private set; }
 
     public object this[int i]
     {
