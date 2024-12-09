@@ -1,11 +1,10 @@
 namespace DataStructInterfaces;
 
-public interface IMyCollection
+public interface IMyCollection<T>
 {
     public int Count { get; }
     
-    void Add(object item);
-    bool Contains(object item);
-    public object[] ToArray();
+    void Add(T item);
+    bool Contains(T item);
     public void Clear();
 }

@@ -1,12 +1,13 @@
 namespace DataStructInterfaces;
 
-public interface IMyList : IMyCollection
+public interface IMyList<T> : IMyCollection<T>
 {
-    object this[int index] { get; set; }
+    T this[int index] { get; set; }
     
-    void Insert(int index, object item);
-    int IndexOf(object item);
+    void Insert(int index, T item);
+    int IndexOf(T item);
     void RemoveAt(int index);
-    bool Remove(object item);
+    bool Remove(T item);
     void Reverse();
+    public T[] ToArray();
 }

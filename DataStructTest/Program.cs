@@ -8,8 +8,8 @@ class Program
     //Draft area. It's able to show a particular output of the methods
     static void Main(string[] args)
     {
-        MyList list = new MyList();
-        BinaryTree myTree = new BinaryTree();
+        MyList<int> list = new MyList<int>();
+        BinaryTree<int> myTree = new BinaryTree<int>();
         
         myTree.Add(10);
         myTree.Add(20);

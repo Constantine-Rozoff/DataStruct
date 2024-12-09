@@ -9,7 +9,7 @@ public class ListTests
     public void MyAddMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         
         //act
         myList.Add(5);
@@ -25,7 +25,7 @@ public class ListTests
     public void MyInsertMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(2);
         myList.Add(4);
         
@@ -48,7 +48,7 @@ public class ListTests
     public void MyIndexOfMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -65,7 +65,7 @@ public class ListTests
     public void MyContainsMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -79,7 +79,7 @@ public class ListTests
     public void MyReverseMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -95,7 +95,7 @@ public class ListTests
     public void MyRemoveMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -104,14 +104,14 @@ public class ListTests
         
         //assert
         Assert.That(myList[0], Is.EqualTo(5));
-        Assert.That(myList[1], Is.EqualTo(null));
+        Assert.That(myList[1], Is.EqualTo(0));
     }
     
     [Test]
     public void MyRemoveAtMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -120,14 +120,14 @@ public class ListTests
         
         //assert
         Assert.That(myList[0], Is.EqualTo(10));
-        Assert.That(myList[1], Is.EqualTo(null));
+        Assert.That(myList[1], Is.EqualTo(0));
     }
     
     [Test]
     public void MyClearMethodTest()
     {
         //arrange
-        MyList myList = new MyList();
+        MyList<int> myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
@@ -137,15 +137,15 @@ public class ListTests
         Console.WriteLine(myList.Count);
         
         //assert
-        Assert.That(myList[0], Is.EqualTo(null));
-        Assert.That(myList[1], Is.EqualTo(null));
+        Assert.That(myList[0], Is.EqualTo(0));
+        Assert.That(myList[1], Is.EqualTo(0));
     }
     
     [Test]
     public void MyToArrayMethodTest()
     {
         //arrange
-        var myList = new MyList();
+        var myList = new MyList<int>();
         myList.Add(5);
         myList.Add(10);
         
