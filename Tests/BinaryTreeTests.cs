@@ -9,7 +9,7 @@ public class BinaryTreeTests
     public void AddMethodTest()
     {
         //arrange
-        BinaryTree tree = new BinaryTree();
+        BinaryTree<int> tree = new BinaryTree<int>();
         
         //act
         tree.Add(5);
@@ -25,7 +25,7 @@ public class BinaryTreeTests
     public void ToArrayMethodTest()
     {
         //arrange
-        BinaryTree tree = new BinaryTree();
+        BinaryTree<int> tree = new BinaryTree<int>();
         
         tree.Add(5);
         tree.Add(10);
@@ -45,7 +45,7 @@ public class BinaryTreeTests
     public void ClearMethodTest()
     {
         //arrange
-        BinaryTree tree = new BinaryTree();
+        BinaryTree<int> tree = new BinaryTree<int>();
         
         tree.Add(5);
         tree.Add(10);
