@@ -4,7 +4,7 @@ namespace DataStructLib;
 
 public class MyList<T> : IMyList<T>
 {
-    private T[] _innerArray = new T[10];
+    private T?[] _innerArray = new T[10];
     
     public int Count { get; private set; }
 

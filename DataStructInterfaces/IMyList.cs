@@ -9,5 +9,5 @@ public interface IMyList<T> : IMyCollection<T>
     void RemoveAt(int index);
     bool Remove(T item);
     void Reverse();
-    public T[] ToArray();
+    T?[] ToArray();
 }

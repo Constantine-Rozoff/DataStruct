@@ -7,9 +7,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     public class Node : IListNode
     {
         public IListNode? Next { get; set; }
-        public object Value { get; set; }
+        public object? Value { get; set; }
 
-        public Node(object value)
+        public Node(object? value)
         {
             Value = value;
             Next = null;
@@ -122,7 +122,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         IListNode? current = root;
         while (current != default)
         {
-            if (current.Value.Equals(value))
+            if (current.Value!.Equals(value))
             {
                 return true;
             }
@@ -154,7 +154,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         int index = 0;
         while (current != default)
         {
-            array[index] = (T)current.Value;
+            array[index] = (T)current.Value!;
             current = current.Next;
             index++;
         }
@@ -167,7 +167,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         IListNode? current = root;
         while (current != default)
         {
-            Console.Write(current.Value + " -> ");
+            Console.Write(current.Value! + " -> ");
             current = current.Next;
         }
         Console.WriteLine("null");
