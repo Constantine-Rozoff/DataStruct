@@ -1,12 +1,14 @@
-﻿namespace DataStructLib;
+﻿using DataStructInterfaces;
 
-public class MyList
+namespace DataStructLib;
+
+public class MyList<T> : IMyList<T>
 {
-    private object[] _innerArray = new object[10];
+    private T?[] _innerArray = new T[10];
     
     public int Count { get; private set; }
 
-    public object this[int i]
+    public T? this[int i]
     {
         get
         {
@@ -25,11 +27,11 @@ public class MyList
                 throw new IndexOutOfRangeException("Index out of range");
             }
             
-            _innerArray[i] = value;
+            _innerArray[i] = (T)value;
         }
     }
     
-    public void MyAdd(object item)
+    public void Add(T? item)
     {
         _innerArray = Increase();
         
@@ -38,15 +40,15 @@ public class MyList
         Count++;
     }
 
-    private object[] Increase()
+    private T[] Increase()
     {
         if (Count >= _innerArray.Length)
         {
             int newSize = _innerArray.Length * 2;
     
-            object[] newArray = new object[newSize];
+            T[] newArray = new T[newSize];
     
-            MyCopy(newArray, _innerArray, Count);
+            Copy(newArray, _innerArray, Count);
 
             _innerArray = newArray;
         }
@@ -54,9 +56,9 @@ public class MyList
         return _innerArray;
     }
     
-    private void MyCopy(
-        object[] destinationArray,
-        object[] copiedArray,
+    private void Copy(
+        T[] destinationArray,
+        T[] copiedArray,
         int count)
     {
         for (int i = 0; i < count; i++)
@@ -65,7 +67,7 @@ public class MyList
         }
     }
     
-    public void MyInsert(int index, object item)
+    public void Insert(int index, T item)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -74,7 +76,7 @@ public class MyList
         
         var newArray = Increase();
         
-        MyCopy(newArray, _innerArray, index);
+        Copy(newArray, _innerArray, index);
         
         newArray[index] = item;
 
@@ -86,8 +88,8 @@ public class MyList
         _innerArray = newArray;
         Count++;
     }
-    
-    public int MyIndexOf(object item)
+
+    public int IndexOf(T item)
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
@@ -100,14 +102,14 @@ public class MyList
         return -1;
     }
     
-    public bool MyContains(object item)
+    public bool Contains(T item)
     {
-        if (MyIndexOf(item) >= 0) { return true; }
+        if (IndexOf(item) >= 0) { return true; }
 
         return false;
     }
     
-    public void MyReverse()
+    public void Reverse()
     {
         int left = 0;
         int right = Count - 1;
@@ -122,20 +124,20 @@ public class MyList
             right--;
         }
     }
-    
-    public bool MyRemove(object item)
+
+    public bool Remove(T item)
     {
-        int index = MyIndexOf(item);
+        int index = IndexOf(item);
         if (index >= 0)
         {
-            MyRemoveAt(index);
+            RemoveAt(index);
             return true;
         }
 
         return false;
     }
     
-    public void MyRemoveAt(int index)
+    public void RemoveAt(int index)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -150,7 +152,7 @@ public class MyList
         _innerArray[^1] = default!;
     }
     
-    public void MyClear()
+    public void Clear()
     {
         for (int i = 0; i < _innerArray.Length; i++)
         {
@@ -158,9 +160,9 @@ public class MyList
         }
     }
     
-    public object[] MyToArray()
+    public T[] ToArray()
     {
-        object[] newArray = new object[Count];
+        T[] newArray = new T[Count];
         
         for (int i = 0; i < Count; i++)
         {

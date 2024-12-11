@@ -1,5 +1,5 @@
-﻿using System.Threading.Channels;
-using DataStructLib;
+﻿using DataStructLib;
+using DataStructInterfaces;
 
 namespace DataStructTest;
 
@@ -8,7 +8,8 @@ class Program
     //Draft area. It's able to show a particular output of the methods
     static void Main(string[] args)
     {
-        BinaryTree myTree = new BinaryTree();
+        MyList<int> list = new MyList<int>();
+        BinaryTree<int> myTree = new BinaryTree<int>();
         
         myTree.Add(10);
         myTree.Add(20);

@@ -1,57 +1,59 @@
+using DataStructInterfaces;
+
 namespace DataStructLib;
 
-public class MyLinkedList
+public class MyLinkedList<T> : IMyLinkedList<T>
 {
-    public class Node
+    public class Node : IListNode
     {
-        public Node? Next { get; set; }
-        public object Value { get; set; }
+        public IListNode? Next { get; set; }
+        public object? Value { get; set; }
 
-        public Node(object value)
+        public Node(object? value)
         {
             Value = value;
             Next = null;
         }
     }
     
-    private Node? root;
+    private IListNode root;
     private Node? last;
     public int Count { get; private set; }
     
-    public object? First
+    public T? First
     {
         get
         {
-            if (root == null)
+            if (root == default)
                 throw new InvalidOperationException("Empty Linked List");
-            return root.Value;
+            return (T?)root.Value;
         }
     }
 
-    public object? Last
+    public T? Last
     {
         get
         {
             if (root == null)
                 throw new InvalidOperationException("Список пуст.");
 
-            Node current = root;
-            while (current.Next != null)
+            IListNode current = root;
+            while (current.Next != default)
             {
                 current = current.Next;
             }
-            return current.Value;
+            return (T?)current.Value;
         }
     }
 
     public MyLinkedList()
     {
-        root = null;
-        last = null;
+        root = default;
+        last = default;
     }
 
 
-    public void AddFirst(object value)
+    public void AddFirst(T value)
     {
         Node? newNode = new Node(value);
         newNode.Next = root;
@@ -59,18 +61,18 @@ public class MyLinkedList
         Count++;
     }
     
-    public void Add(object value)
+    public void Add(T value)
     {
         Node? newNode = new Node(value);
 
-        if (root == null)
+        if (root == default)
         {
             AddFirst(value);
         }
         else
         {
-            Node? current = root;
-            while (current.Next != null)
+            IListNode current = root;
+            while (current.Next != default)
             {
                 current = current.Next;
             }
@@ -80,16 +82,16 @@ public class MyLinkedList
         }
     }
     
-    public void Insert(int index, object value)
+    public void Insert(int index, T value)
     {
         if (index < 0)
         {
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        Node? newNode = new Node(value);
+        IListNode? newNode = new Node(value);
         int currentIndex = 0;
-        Node? current = null;
+        IListNode? current = default;
 
         if (index == 0)
         {
@@ -99,13 +101,13 @@ public class MyLinkedList
         }
         
         current = root;
-        while (current != null && currentIndex < index - 1)
+        while (current != default && currentIndex < index - 1)
         {
             current = current.Next;
             currentIndex++;
         }
         
-        if (current == null) 
+        if (current == default) 
         {
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
@@ -115,12 +117,12 @@ public class MyLinkedList
         Count++;
     }
 
-    public bool Contains(object value)
+    public bool Contains(T value)
     {
-        Node? current = root;
-        while (current != null)
+        IListNode? current = root;
+        while (current != default)
         {
-            if (current.Value.Equals(value))
+            if (current.Value!.Equals(value))
             {
                 return true;
             }
@@ -132,27 +134,27 @@ public class MyLinkedList
     
     public void Clear()
     {
-        root = null;
+        root = default;
         Count = 0;
     }
     
-    public object[] ToArray()
+    public T[] ToArray()
     {
         int count = 0;
-        Node? current = root;
-        while (current != null)
+        IListNode? current = root;
+        while (current != default)
         {
             count++;
             current = current.Next;
         }
 
-        object[] array = new object[count];
+        T[] array = new T[count];
 
         current = root;
         int index = 0;
-        while (current != null)
+        while (current != default)
         {
-            array[index] = current.Value;
+            array[index] = (T)current.Value!;
             current = current.Next;
             index++;
         }
@@ -162,10 +164,10 @@ public class MyLinkedList
     
     public void PrintLinkedList()
     {
-        Node? current = root;
-        while (current != null)
+        IListNode? current = root;
+        while (current != default)
         {
-            Console.Write(current.Value + " -> ");
+            Console.Write(current.Value! + " -> ");
             current = current.Next;
         }
         Console.WriteLine("null");
