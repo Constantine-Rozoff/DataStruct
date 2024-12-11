@@ -1,8 +1,8 @@
 namespace DataStructInterfaces;
 
-public interface ITreeNode
+public interface ITreeNode<T>
 {
-    ITreeNode? Left { get; set; }
-    ITreeNode? Right { get; set; }
-    int Value { get; init; }
+    ITreeNode<T>? Left { get; set; }
+    ITreeNode<T>? Right { get; set; }
+    T? Value { get; init; }
 }

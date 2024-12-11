@@ -9,7 +9,7 @@ public class LinkedListTests
     public void AddMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         
         //act
         linkedList.Add(5);
@@ -25,7 +25,7 @@ public class LinkedListTests
     public void AddFirstAndFirstPropertyMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         linkedList.Add(5);
         linkedList.Add(10);
         
@@ -41,7 +41,7 @@ public class LinkedListTests
     public void CountPropertyTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         
         //act
         linkedList.Add(5);
@@ -56,7 +56,7 @@ public class LinkedListTests
     public void LastPropertyTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         
         //act
         linkedList.Add(5);
@@ -70,7 +70,7 @@ public class LinkedListTests
     public void InsertMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         linkedList.Add(5);
         linkedList.Add(10);
         
@@ -90,7 +90,7 @@ public class LinkedListTests
     public void ContainsMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         
         //act
         linkedList.Add(5);
@@ -106,7 +106,7 @@ public class LinkedListTests
     public void ClearMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         linkedList.Add(5);
         linkedList.Add(10);
 
@@ -121,7 +121,7 @@ public class LinkedListTests
     public void ToArrayMethodTest()
     {
         //arrange
-        MyLinkedList linkedList = new MyLinkedList();
+        MyLinkedList<int> linkedList = new MyLinkedList<int>();
         linkedList.Add(5);
         linkedList.Add(10);
 

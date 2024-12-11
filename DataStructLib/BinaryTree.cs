@@ -2,31 +2,31 @@ using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class BinaryTree
+public class BinaryTree<T> : IMyCollection<T> where T : IComparable<T>
 {
-    public class Node : ITreeNode
+    private class Node<T> : ITreeNode<T>
     {
-        public Node(int value, Node? left = null, Node? right = null)
+        public Node(T value, ITreeNode<T>? left = null, ITreeNode<T>? right = null)
         {
             Left = left;
             Right = right;
             Value = value;
         }
 
-        public ITreeNode? Left { get; set; }
-        public ITreeNode? Right { get; set; }
-        public int Value { get; init; }
+        public ITreeNode<T>? Left { get; set; }
+        public ITreeNode<T>? Right { get; set; }
+        public T? Value { get; init; }
     }
 
-    private Node? _root;
+    private ITreeNode<T>? _root;
     public int Count { get; private set; }
     
     
-    public void Add(int item)
+    public void Add(T item)
     {
-        if (_root == null)
+        if (_root == default)
         {
-            _root = new Node(item);
+            _root = new Node<T>(item);
         }
         else
         {
@@ -36,24 +36,24 @@ public class BinaryTree
         Count++;
     }
 
-    private void Add(ITreeNode? current, int item)
+    private void Add(ITreeNode<T>? current, T item)
     {
-        if (current != null && item < current.Value)
+        if (current != default && item.CompareTo(current.Value) < 0)
         {
             if (current.Left == null)
             {
-                current.Left = new Node(item);
+                current.Left = new Node<T>(item);
             }
             else
             {
                 Add(current.Left, item);
             }
         }
-        else if (current != null && item > current.Value)
+        else if (current != null && item.CompareTo(current.Value) > 0)
         {
             if (current.Right == null)
             {
-                current.Right = new Node(item);
+                current.Right = new Node<T>(item);
             }
             else
             {
@@ -62,14 +62,14 @@ public class BinaryTree
         }
     }
 
-    public bool Contains(int item)
+    public bool Contains(T? item)
     {
-        return _root != null && Contains(_root, item);
+        return _root != default && Contains(_root, item);
     }
 
-    private bool Contains(ITreeNode? current, int item)
+    private bool Contains(ITreeNode<T>? current, T? item)
     {
-        if (current != null && item < current.Value)
+        if (current != default && (item!.CompareTo(current.Value)) < 0 )
         {
             if (current.Left == null)
             {
@@ -80,7 +80,7 @@ public class BinaryTree
         }
         else
         {
-            if (current != null && item > current.Value)
+            if (current != default && item!.CompareTo(current.Value) > 0)
             {
                 if (current.Right == null)
                 {
@@ -94,29 +94,29 @@ public class BinaryTree
         }
     }
 
-    public int[] ToArray()
+    public T[] ToArray()
     {
-        int[] newArray = new int[Count];
+        T[] newArray = new T[Count];
         int index = 0;
 
-        if (_root != null) 
+        if (_root != default) 
             InOrderTraversal(_root, newArray, ref index);
         
         return newArray;
     }
     
-    private void InOrderTraversal(ITreeNode? node, int[] newArray, ref int index)
+    private void InOrderTraversal(ITreeNode<T>? node, T[] newArray, ref int index)
     {
-        if (node != null)
+        if (node != default)
         {
             
-            if (node.Left != null) 
+            if (node.Left != default) 
                 InOrderTraversal(node.Left, newArray, ref index);
             
             newArray[index] = node.Value;
             index++;
             
-            if (node.Right != null) 
+            if (node.Right != default) 
                 InOrderTraversal(node.Right, newArray, ref index);
         }
     }

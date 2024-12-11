@@ -1,10 +1,9 @@
 namespace DataStructInterfaces;
 
-public interface IMyLinkedList : IMyCollection
+public interface IMyLinkedList<T> : IMyCollection<T>
 {
-    public abstract class Node;
-    
-    public void AddFirst(object value);
-    public void Insert(int index, object value);
-    public void PrintLinkedList();
+    void AddFirst(T value);
+    void Insert(int index, T value);
+    void PrintLinkedList();
+    T?[] ToArray();
 }
