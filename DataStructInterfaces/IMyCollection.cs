@@ -6,5 +6,6 @@ public interface IMyCollection<T>
     
     void Add(T item);
     bool Contains(T item);
+    T?[] ToArray();
     void Clear();
 }

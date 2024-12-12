@@ -32,9 +32,12 @@ public class LinkedListTests
         //act
         linkedList.AddFirst(88);
         
+        linkedList.PrintLinkedList();
+        
         //assert
         Assert.That(linkedList.Contains(88), Is.True);
         Assert.That(linkedList.First, Is.EqualTo(88));
+        Assert.That(linkedList.Count, Is.EqualTo(3));
     }
     
     [Test]
