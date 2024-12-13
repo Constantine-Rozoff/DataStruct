@@ -4,10 +4,7 @@ namespace DataStructLib;
 
 public class MyLinkedList<T> : IMyLinkedList<T>
 {
-    protected Node? root;
-    protected Node? last;
-    
-    public class Node
+    protected class Node
     {
         public Node? Next { get; set; }
         public T? Value { get; set; }
@@ -18,6 +15,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             Next = next;
         }
     }
+
+    protected Node? root;
+    protected Node? last;
 
     public MyLinkedList()
     {
@@ -53,11 +53,10 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         }
     }
     
-    public virtual Node CreateNode(T? value, Node? next = null, Node? prev = null)
+    protected virtual Node CreateNode(T? value, Node? next = null, Node? prev = null)
     {
         return new Node(value, next);
     }
-
 
     public void AddFirst(T value)
     {
@@ -74,6 +73,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         if (root == default)
         {
             AddFirst(value);
+            last = root;
         }
         else
         {
@@ -84,6 +84,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             }
 
             current.Next = newNode;
+
+            last = newNode;
+
             Count++;
         }
     }

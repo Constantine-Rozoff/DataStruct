@@ -2,10 +2,7 @@ namespace DataStructLib;
 
 public class DoubleLinkedList<T> : MyLinkedList<T>
 {
-    protected DoubleNode? next;
-    protected DoubleNode? prev;
-
-    public class DoubleNode : Node
+    protected class DoubleNode : Node
     {
         public Node? Prev { get; set; }
 
@@ -18,13 +15,7 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
 
     }
 
-    public DoubleLinkedList()
-    {
-        last = default;
-        prev = default;
-    }
-
-    public override Node CreateNode(T? value, Node? next = null, Node? prev = null)
+    protected override Node CreateNode(T? value, Node? next = null, Node? prev = null)
     {
         return new DoubleNode(value, next, prev); 
     }
@@ -60,12 +51,13 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
 
         if (root != null && root.Next == null)
         {
-            root = (last = default) as DoubleNode; 
+            root = (last = default) as DoubleNode;
         }
         else
         {
-            root = root.Next as DoubleNode;     
-            root!.Prev = default;
+            var node = (DoubleNode)root.Next!;
+            root = node;
+            node!.Prev = default;
         }
 
         Count--;
@@ -84,7 +76,8 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
             current = current.Next;
         }
 
-        last = current.Prev;
+        var node = (DoubleNode)current;
+        last = node.Prev;
         current.Value = default;
         
         Count--;
