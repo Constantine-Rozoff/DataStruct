@@ -15,6 +15,8 @@ public class DoubleLinkedListTests
         doubleList.AddFirst(5);
         doubleList.AddFirst(10);
         
+        doubleList.PrintLinkedList();
+        
         //assert
         Assert.That(doubleList.Contains(5), Is.True);
         Assert.That(doubleList.Contains(10), Is.True);

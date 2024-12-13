@@ -4,24 +4,27 @@ namespace DataStructLib;
 
 public class MyLinkedList<T> : IMyLinkedList<T>
 {
-    private class Node : IListNode<T>
+    protected Node? root;
+    protected Node? last;
+    
+    public class Node
     {
-        public IListNode<T>? Next { get; set; }
+        public Node? Next { get; set; }
         public T? Value { get; set; }
-        public IListNode<T> CreateNode(T value)
-        {
-            return new Node(value);
-        }
 
-        public Node(T? value)
+        public Node(T? value, Node? next = null)
         {
             Value = value;
-            Next = null;
+            Next = next;
         }
     }
-    
-    protected IListNode<T>? root;
-    protected IListNode<T>? last;
+
+    public MyLinkedList()
+    {
+        root = default;
+        last = default;
+    }
+
     public int Count { get; protected set; }
     
     public T? First
@@ -30,7 +33,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         {
             if (root == default)
                 throw new InvalidOperationException("Empty Linked List");
-            return (T?)root.Value;
+            return root.Value;
         }
     }
 
@@ -41,7 +44,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             if (root == null)
                 throw new InvalidOperationException("Список пуст.");
 
-            IListNode<T> current = root;
+            Node current = root;
             while (current.Next != default)
             {
                 current = current.Next;
@@ -49,21 +52,14 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             return current.Value;
         }
     }
-
-    public MyLinkedList()
+    
+    public virtual Node CreateNode(T? value, Node? next = null, Node? prev = null)
     {
-        root = default;
-        last = default;
-    }
-
-    private IListNode<T> CreateNode(T value)
-    {
-        IListNode<T> node = new Node(value);
-        return node;
+        return new Node(value, next);
     }
 
 
-    public virtual void AddFirst(T value)
+    public void AddFirst(T value)
     {
         var newNode = CreateNode(value);
         newNode.Next = root;
@@ -73,7 +69,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     
     public virtual void Add(T value)
     {
-        IListNode<T>? newNode = CreateNode(value);
+        Node newNode = CreateNode(value);
 
         if (root == default)
         {
@@ -81,7 +77,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         }
         else
         {
-            IListNode<T>? current = root;
+            Node current = root;
             while (current.Next != default)
             {
                 current = current.Next;
@@ -99,9 +95,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        IListNode<T> newNode = new Node(value);
+        Node newNode = new Node(value);
         int currentIndex = 0;
-        IListNode<T>? current = default;
+        Node? current = default;
 
         if (index == 0)
         {
@@ -129,7 +125,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
 
     public virtual bool Contains(T value)
     {
-        IListNode<T>? current = root;
+        Node current = root;
         while (current != default)
         {
             if (current.Value!.Equals(value))
@@ -151,7 +147,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     public virtual T[] ToArray()
     {
         int count = 0;
-        IListNode<T>? current = root;
+        Node current = root;
         while (current != default)
         {
             count++;
@@ -174,7 +170,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     
     public virtual void PrintLinkedList()
     {
-        IListNode<T>? current = root;
+        Node current = root;
         while (current != default)
         {
             Console.Write(current.Value! + " -> ");
