@@ -4,21 +4,28 @@ namespace DataStructLib;
 
 public class MyLinkedList<T> : IMyLinkedList<T>
 {
-    public class Node : IListNode
+    protected class Node
     {
-        public IListNode? Next { get; set; }
-        public object? Value { get; set; }
+        public Node? Next { get; set; }
+        public T? Value { get; set; }
 
-        public Node(object? value)
+        public Node(T? value, Node? next = null)
         {
             Value = value;
-            Next = null;
+            Next = next;
         }
     }
-    
-    private IListNode root;
-    private Node? last;
-    public int Count { get; private set; }
+
+    protected Node? root;
+    protected Node? last;
+
+    public MyLinkedList()
+    {
+        root = default;
+        last = default;
+    }
+
+    public int Count { get; protected set; }
     
     public T? First
     {
@@ -26,7 +33,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         {
             if (root == default)
                 throw new InvalidOperationException("Empty Linked List");
-            return (T?)root.Value;
+            return root.Value;
         }
     }
 
@@ -37,47 +44,49 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             if (root == null)
                 throw new InvalidOperationException("Список пуст.");
 
-            IListNode current = root;
+            Node current = root;
             while (current.Next != default)
             {
                 current = current.Next;
             }
-            return (T?)current.Value;
+            return current.Value;
         }
     }
-
-    public MyLinkedList()
+    
+    protected virtual Node CreateNode(T? value, Node? next = null, Node? prev = null)
     {
-        root = default;
-        last = default;
+        return new Node(value, next);
     }
-
 
     public void AddFirst(T value)
     {
-        Node? newNode = new Node(value);
+        var newNode = CreateNode(value);
         newNode.Next = root;
         root = newNode;
         Count++;
     }
     
-    public void Add(T value)
+    public virtual void Add(T value)
     {
-        Node? newNode = new Node(value);
+        Node newNode = CreateNode(value);
 
         if (root == default)
         {
             AddFirst(value);
+            last = root;
         }
         else
         {
-            IListNode current = root;
+            Node current = root;
             while (current.Next != default)
             {
                 current = current.Next;
             }
 
             current.Next = newNode;
+
+            last = newNode;
+
             Count++;
         }
     }
@@ -89,9 +98,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             throw new ArgumentOutOfRangeException(nameof(index), "out of range");
         }
         
-        IListNode? newNode = new Node(value);
+        Node newNode = new Node(value);
         int currentIndex = 0;
-        IListNode? current = default;
+        Node? current = default;
 
         if (index == 0)
         {
@@ -117,9 +126,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         Count++;
     }
 
-    public bool Contains(T value)
+    public virtual bool Contains(T value)
     {
-        IListNode? current = root;
+        Node current = root;
         while (current != default)
         {
             if (current.Value!.Equals(value))
@@ -132,16 +141,16 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         return false;
     }
     
-    public void Clear()
+    public virtual void Clear()
     {
         root = default;
         Count = 0;
     }
     
-    public T[] ToArray()
+    public virtual T[] ToArray()
     {
         int count = 0;
-        IListNode? current = root;
+        Node current = root;
         while (current != default)
         {
             count++;
@@ -162,9 +171,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         return array;
     }
     
-    public void PrintLinkedList()
+    public virtual void PrintLinkedList()
     {
-        IListNode? current = root;
+        Node current = root;
         while (current != default)
         {
             Console.Write(current.Value! + " -> ");
