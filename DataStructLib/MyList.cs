@@ -158,6 +158,8 @@ public class MyList<T> : IMyList<T>
         {
             _innerArray[i] = default!;
         }
+
+        Count = 0;
     }
     
     public T[] ToArray()
