@@ -35,6 +35,11 @@ public class MyStack<T> : IMyCollection<T>
         }
     }
     
+    void IMyCollection<T>.Add(T item)
+    {
+        Push(item);
+    }
+    
     public void Push(T item)
     {
         items.Add(item);
