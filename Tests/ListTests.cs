@@ -160,8 +160,7 @@ public class ListTests
         myList.Clear();
         
         //assert
-        Assert.That(myList[0], Is.EqualTo(0));
-        Assert.That(myList[1], Is.EqualTo(0));
+        Assert.That(myList.Count, Is.EqualTo(0));
     }
     
     [Test]

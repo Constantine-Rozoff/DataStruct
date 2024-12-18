@@ -171,6 +171,7 @@ public class MyList<T> : IMyList<T>
             _innerArray[i] = default!;
         }
         OnListChanged(ChangeType.Clear, default, 0);
+        Count = 0;
     }
     
     public T[] ToArray()
