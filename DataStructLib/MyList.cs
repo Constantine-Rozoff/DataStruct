@@ -5,8 +5,17 @@ namespace DataStructLib;
 public class MyList<T> : IMyList<T>
 {
     private T?[] _innerArray = new T[10];
-    
     public int Count { get; private set; }
+
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    private void OnListChanged(
+        ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+    }
 
     public T? this[int i]
     {
@@ -38,6 +47,7 @@ public class MyList<T> : IMyList<T>
         _innerArray[Count] = item;
         
         Count++;
+        OnListChanged(ChangeType.Add, item, Count - 1);
     }
 
     private T[] Increase()
@@ -87,6 +97,7 @@ public class MyList<T> : IMyList<T>
 
         _innerArray = newArray;
         Count++;
+        OnListChanged(ChangeType.Insert, item, index);
     }
 
     public int IndexOf(T item)
@@ -130,14 +141,14 @@ public class MyList<T> : IMyList<T>
         int index = IndexOf(item);
         if (index >= 0)
         {
-            RemoveAt(index);
+            RemoveAt(index, item);
             return true;
         }
 
         return false;
     }
     
-    public void RemoveAt(int index)
+    public void RemoveAt(int index, T item = default)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -150,6 +161,7 @@ public class MyList<T> : IMyList<T>
         }
 
         _innerArray[^1] = default!;
+        OnListChanged(ChangeType.Remove, item, index);
     }
     
     public void Clear()
@@ -158,6 +170,7 @@ public class MyList<T> : IMyList<T>
         {
             _innerArray[i] = default!;
         }
+        OnListChanged(ChangeType.Clear, default, 0);
     }
     
     public T[] ToArray()

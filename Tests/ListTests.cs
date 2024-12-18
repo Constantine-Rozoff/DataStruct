@@ -1,4 +1,5 @@
 using DataStructLib;
+using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework;
 
 namespace Tests;
@@ -10,6 +11,11 @@ public class ListTests
     {
         //arrange
         MyList<int> myList = new MyList<int>();
+        
+        myList.ListChanged += (sender, args) =>
+        {
+            Console.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         myList.Add(5);
@@ -26,17 +32,18 @@ public class ListTests
     {
         //arrange
         MyList<int> myList = new MyList<int>();
+        
+        myList.ListChanged += (sender, args) =>
+        {
+            Console.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         myList.Add(2);
         myList.Add(4);
         
         //act
         myList.Insert(1, 44);
         myList.Insert(2, 77);
-
-        for (int i = 0; i < myList.Count - 1; i++)
-        {
-            Console.WriteLine(myList[i]);
-        }
         
         //assert
         Assert.That(myList.Contains(44), Is.True);
@@ -96,6 +103,12 @@ public class ListTests
     {
         //arrange
         MyList<int> myList = new MyList<int>();
+        
+        myList.ListChanged += (sender, args) =>
+        {
+            Console.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         myList.Add(5);
         myList.Add(10);
         
@@ -112,6 +125,12 @@ public class ListTests
     {
         //arrange
         MyList<int> myList = new MyList<int>();
+        
+        myList.ListChanged += (sender, args) =>
+        {
+            Console.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         myList.Add(5);
         myList.Add(10);
         
@@ -128,13 +147,17 @@ public class ListTests
     {
         //arrange
         MyList<int> myList = new MyList<int>();
+        
+        myList.ListChanged += (sender, args) =>
+        {
+            Console.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         myList.Add(5);
         myList.Add(10);
         
         //act
         myList.Clear();
-
-        Console.WriteLine(myList.Count);
         
         //assert
         Assert.That(myList[0], Is.EqualTo(0));
