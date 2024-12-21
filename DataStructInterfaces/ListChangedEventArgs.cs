@@ -11,6 +11,5 @@ public class ListChangedEventArgs<T> : EventArgs
         ChangeType = changeType;
         Item = item;
         Index = index;
-        
     }
 }
