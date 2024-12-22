@@ -1,3 +1,5 @@
+using DataStructInterfaces;
+
 namespace DataStructLib;
 
 public class DoubleLinkedList<T> : MyLinkedList<T>
@@ -5,6 +7,15 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     protected class DoubleNode : Node
     {
         public Node? Prev { get; set; }
+        public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+        private void OnListChanged(
+            ChangeType changeType,
+            T? item = default,
+            int? index = null)
+        {
+            ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+        }
 
         public DoubleNode(T? value, Node? next, Node? prev) : base(value, next)
         {
@@ -38,8 +49,9 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     
             current = current.Next;
         }
-
+        
         Count--;
+        OnListChanged(ChangeType.Remove, value);
     }
     
     public void RemoveFirst()
@@ -61,6 +73,7 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
         }
 
         Count--;
+        OnListChanged(ChangeType.Remove, root!.Value, 0);
     }
     
     public void RemoveLast()
@@ -75,6 +88,8 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
         {
             current = current.Next;
         }
+        
+        OnListChanged(ChangeType.Remove, last!.Value, Count - 1);
 
         var node = (DoubleNode)current;
         last = node.Prev;
@@ -87,6 +102,7 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     {
         root = default;
         Count = 0;
+        OnListChanged(ChangeType.Clear, default, 0);
     }
     
     public override void PrintLinkedList()

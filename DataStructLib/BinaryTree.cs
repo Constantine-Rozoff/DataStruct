@@ -21,6 +21,15 @@ public class BinaryTree<T> : IMyCollection<T> where T : IComparable<T>
     private ITreeNode<T>? _root;
     public int Count { get; private set; }
     
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    private void OnListChanged(
+        ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+    }
     
     public void Add(T item)
     {
@@ -34,6 +43,7 @@ public class BinaryTree<T> : IMyCollection<T> where T : IComparable<T>
         }
         
         Count++;
+        OnListChanged(ChangeType.Add, item, Count - 1);
     }
 
     private void Add(ITreeNode<T>? current, T item)
@@ -125,5 +135,6 @@ public class BinaryTree<T> : IMyCollection<T> where T : IComparable<T>
     {
         _root = null;
         Count = 0;
+        OnListChanged(ChangeType.Clear, default, 0);
     }
 }
