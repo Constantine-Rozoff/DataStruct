@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -10,6 +11,11 @@ public class BinaryTreeTests
     {
         //arrange
         BinaryTree<int> tree = new BinaryTree<int>();
+        
+        tree.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         tree.Add(5);
@@ -46,6 +52,11 @@ public class BinaryTreeTests
     {
         //arrange
         BinaryTree<int> tree = new BinaryTree<int>();
+        
+        tree.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         tree.Add(5);
         tree.Add(10);

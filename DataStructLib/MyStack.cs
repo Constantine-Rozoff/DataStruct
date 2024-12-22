@@ -7,6 +7,15 @@ public class MyStack<T> : IMyCollection<T>
     public int Count { get; private set; }
     private List<T> items;
     
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    public void OnListChanged(ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+    }
+    
     public MyStack()
     {
         items = new List<T>();
@@ -38,12 +47,14 @@ public class MyStack<T> : IMyCollection<T>
     void IMyCollection<T>.Add(T item)
     {
         Push(item);
+        OnListChanged(ChangeType.Add, item, Count - 1);
     }
     
     public void Push(T item)
     {
         items.Add(item);
         Count++;
+        OnListChanged(ChangeType.Add, item, Count - 1);
     }
 
     public T Pop()
@@ -56,6 +67,7 @@ public class MyStack<T> : IMyCollection<T>
         var topItem = items[^1];
         items.RemoveAt(items.Count - 1);
         Count--;
+        OnListChanged(ChangeType.Remove, items[items.Count - 1], items.Count - 1);
         return topItem;
     }
     
@@ -108,6 +120,7 @@ public class MyStack<T> : IMyCollection<T>
             items[i] = default!;
         }
 
+        OnListChanged(ChangeType.Clear, default, 0);
         Count = 0;
     }
     

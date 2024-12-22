@@ -19,6 +19,15 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     protected Node? root;
     protected Node? last;
 
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    public void OnListChanged(ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+    }
+
     public MyLinkedList()
     {
         root = default;
@@ -64,6 +73,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         newNode.Next = root;
         root = newNode;
         Count++;
+        OnListChanged(ChangeType.Add, value, Count - 1);
     }
     
     public virtual void Add(T value)
@@ -88,6 +98,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
             last = newNode;
 
             Count++;
+            OnListChanged(ChangeType.Add, value, Count - 1);
         }
     }
     
@@ -124,6 +135,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         newNode.Next = current.Next;
         current.Next = newNode;
         Count++;
+        OnListChanged(ChangeType.Insert, value, index);
     }
 
     public virtual bool Contains(T value)
@@ -145,6 +157,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     {
         root = default;
         Count = 0;
+        OnListChanged(ChangeType.Clear, default, 0);
     }
     
     public virtual T[] ToArray()

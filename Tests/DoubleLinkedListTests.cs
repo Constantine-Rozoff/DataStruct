@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -10,6 +11,11 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         doubleList.AddFirst(5);
@@ -28,6 +34,12 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         doubleList.Add(5);
         doubleList.Add(10);
         
@@ -60,6 +72,12 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         doubleList.Add(5);
         doubleList.Add(10);
         
@@ -80,6 +98,12 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         doubleList.Add(5);
         doubleList.Add(10);
         doubleList.Add(55);
@@ -100,6 +124,12 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         doubleList.Add(5);
         doubleList.Add(10);
         doubleList.Add(55);
@@ -139,6 +169,12 @@ public class DoubleLinkedListTests
     {
         //arrange
         DoubleLinkedList<int> doubleList = new DoubleLinkedList<int>();
+        
+        doubleList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         doubleList.Add(5);
         doubleList.Add(10);
         doubleList.Add(55);

@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -10,6 +11,11 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         linkedList.Add(5);
@@ -26,6 +32,12 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         linkedList.Add(5);
         linkedList.Add(10);
         
@@ -74,6 +86,12 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+
         linkedList.Add(5);
         linkedList.Add(10);
         
@@ -110,9 +128,15 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         linkedList.Add(5);
         linkedList.Add(10);
-
+        
         //act
         linkedList.Clear();
         

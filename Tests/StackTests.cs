@@ -1,3 +1,4 @@
+using System.Diagnostics;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -10,6 +11,11 @@ public class StackTests
     {
         //arrange
         MyStack<int> stack = new MyStack<int>();
+        
+        stack.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         stack.Push(5);
@@ -24,6 +30,12 @@ public class StackTests
     {
         //arrange
         MyStack<int> stack = new MyStack<int>();
+        
+        stack.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         stack.Push(5);
         stack.Push(10);
         
@@ -90,6 +102,12 @@ public class StackTests
     {
         //arrange
         MyStack<int> stack = new MyStack<int>();
+        
+        stack.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
+        
         stack.Push(5);
         stack.Push(10);
         stack.Push(25);
