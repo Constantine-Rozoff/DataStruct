@@ -1,4 +1,4 @@
-using DataStructInterfaces;
+using System.Diagnostics;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -11,15 +11,15 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
-        IMyObserver<int> observer = new ListObserver<int>();
         
-        linkedList.Subscribe(observer);
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         //act
         linkedList.Add(5);
         linkedList.Add(10);
-        
-        linkedList.Unsubscribe(observer);
         
         //assert
         Assert.That(linkedList.Contains(5), Is.True);
@@ -32,19 +32,19 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
-        IMyObserver<int> observer = new ListObserver<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         linkedList.Add(5);
         linkedList.Add(10);
-        
-        linkedList.Subscribe(observer);
         
         //act
         linkedList.AddFirst(88);
         
         linkedList.PrintLinkedList();
-        
-        linkedList.Unsubscribe(observer);
         
         //assert
         Assert.That(linkedList.Contains(88), Is.True);
@@ -86,20 +86,20 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
-        IMyObserver<int> observer = new ListObserver<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
 
         linkedList.Add(5);
         linkedList.Add(10);
-        
-        linkedList.Subscribe(observer);
         
         //act
         
         linkedList.Insert(1, 25);
         
         linkedList.PrintLinkedList();
-        
-        linkedList.Unsubscribe(observer);
         
         //assert
         Assert.That(linkedList.First, Is.EqualTo(5));
@@ -128,17 +128,17 @@ public class LinkedListTests
     {
         //arrange
         MyLinkedList<int> linkedList = new MyLinkedList<int>();
-        IMyObserver<int> observer = new ListObserver<int>();
+        
+        linkedList.ListChanged += (sender, args) =>
+        {
+            Debug.WriteLine($"Method: {args.ChangeType}, Item: {args.Item}, Index: {args.Index}");
+        };
         
         linkedList.Add(5);
         linkedList.Add(10);
-
-        linkedList.Subscribe(observer);
-
+        
         //act
         linkedList.Clear();
-
-        linkedList.Unsubscribe(observer);
         
         //assert
         Assert.That(linkedList.Count, Is.EqualTo(0));

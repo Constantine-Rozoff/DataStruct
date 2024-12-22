@@ -2,7 +2,7 @@ using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
+public class MyLinkedList<T> : IMyLinkedList<T>
 {
     protected class Node
     {
@@ -18,8 +18,15 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
 
     protected Node? root;
     protected Node? last;
-    private List<IMyObserver<T>> _observers = new ();
 
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    public void OnListChanged(ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
+    }
 
     public MyLinkedList()
     {
@@ -66,7 +73,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
         newNode.Next = root;
         root = newNode;
         Count++;
-        Notify(ChangeType.Add, value, Count - 1);
+        OnListChanged(ChangeType.Add, value, Count - 1);
     }
     
     public virtual void Add(T value)
@@ -91,7 +98,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
             last = newNode;
 
             Count++;
-            Notify(ChangeType.Add, value, Count - 1);
+            OnListChanged(ChangeType.Add, value, Count - 1);
         }
     }
     
@@ -128,7 +135,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
         newNode.Next = current.Next;
         current.Next = newNode;
         Count++;
-        Notify(ChangeType.Insert, value, index);
+        OnListChanged(ChangeType.Insert, value, index);
     }
 
     public virtual bool Contains(T value)
@@ -150,7 +157,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
     {
         root = default;
         Count = 0;
-        Notify(ChangeType.Clear, default, 0);
+        OnListChanged(ChangeType.Clear, default, 0);
     }
     
     public virtual T[] ToArray()
@@ -186,25 +193,5 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IMyNotifier<T>
             current = current.Next;
         }
         Console.WriteLine("null");
-    }
-
-    public void Subscribe(IMyObserver<T> observer)
-    {
-        _observers.Add(observer);
-    }
-
-    public void Unsubscribe(IMyObserver<T> observer)
-    {
-        _observers.Remove(observer);
-    }
-
-    public void Notify(ChangeType changeType, T? item = default, int? index = null)
-    {
-        foreach (var observer in _observers)
-        {
-            observer.OnListChanged(changeType, item, index);
-            
-            Console.WriteLine($"Method: {changeType.ToString()}, Item: {item}, Index: {index.ToString()}");
-        }
     }
 }

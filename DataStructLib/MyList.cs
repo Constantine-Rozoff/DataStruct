@@ -141,14 +141,14 @@ public class MyList<T> : IMyList<T>
         int index = IndexOf(item);
         if (index >= 0)
         {
-            RemoveAt(index, item);
+            RemoveAt(index);
             return true;
         }
 
         return false;
     }
     
-    public void RemoveAt(int index, T item = default)
+    public void RemoveAt(int index)
     {
         if (index < 0 || index > _innerArray.Length)
         {
@@ -161,7 +161,7 @@ public class MyList<T> : IMyList<T>
         }
 
         _innerArray[^1] = default!;
-        OnListChanged(ChangeType.Remove, item, index);
+        OnListChanged(ChangeType.Remove, _innerArray[index], index);
     }
     
     public void Clear()

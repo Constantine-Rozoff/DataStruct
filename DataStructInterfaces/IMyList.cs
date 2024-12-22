@@ -6,7 +6,7 @@ public interface IMyList<T> : IMyCollection<T>
     
     void Insert(int index, T item);
     int IndexOf(T item);
-    void RemoveAt(int index, T item = default);
+    void RemoveAt(int index);
     bool Remove(T item);
     void Reverse();
 }
