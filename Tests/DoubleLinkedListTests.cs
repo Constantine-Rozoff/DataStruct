@@ -188,4 +188,70 @@ public class DoubleLinkedListTests
         Assert.That(doubleList.Contains(55), Is.False);
         Assert.That(doubleList.Count, Is.EqualTo(0));
     }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
 }

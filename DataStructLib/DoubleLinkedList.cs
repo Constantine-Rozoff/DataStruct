@@ -1,21 +1,13 @@
+using System.Collections;
 using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class DoubleLinkedList<T> : MyLinkedList<T>
+public class DoubleLinkedList<T> : MyLinkedList<T>, IEnumerable<T>
 {
     protected class DoubleNode : Node
     {
         public Node? Prev { get; set; }
-        public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
-    
-        private void OnListChanged(
-            ChangeType changeType,
-            T? item = default,
-            int? index = null)
-        {
-            ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
-        }
 
         public DoubleNode(T? value, Node? next, Node? prev) : base(value, next)
         {
@@ -23,7 +15,70 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
             Prev = prev;
             Value = value;
         }
+    }
+    
+    public new IEnumerator<T> GetEnumerator()
+    {
+        return new DoubleLinkedListIterator((DoubleNode)Root!);
+    }
+        
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+        
+    private class DoubleLinkedListIterator : IEnumerator<T>
+    {
+        private readonly DoubleNode? _firstNode;
+        private DoubleNode _node;
+        private DoubleNode _prev;
 
+        public DoubleLinkedListIterator(DoubleNode node, DoubleNode prev = null)
+        {
+            _prev = prev;
+            _firstNode = _node = node;
+        }
+
+        public T Current => _node.Value!;
+
+        object IEnumerator.Current => Current!;
+
+        public bool MoveNext()
+        {
+            if (_node == null)
+                return false;
+            
+            DoubleNode next = (DoubleNode)_node.Next!;
+            if (next != null)
+            {
+                next.Prev = _node.Prev;
+            }
+            if (_node.Prev != null)
+            {
+                _node.Prev.Next = next;
+            }
+            _node = next;
+            return _node != null;
+        }
+
+        public void Reset()
+        {
+            _node = _firstNode!;
+        }
+
+        public void Dispose()
+        {
+        }
+    }
+    
+    public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
+    
+    private void OnListChanged(
+        ChangeType changeType,
+        T? item = default,
+        int? index = null)
+    {
+        ListChanged?.Invoke(this, new ListChangedEventArgs<T>(changeType, item, index));
     }
 
     protected override Node CreateNode(T? value, Node? next = null, Node? prev = null)
@@ -33,9 +88,9 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     
     public void Remove(T value)
     {
-        Node? current = root;
+        Node? current = Root;
 
-        if (root == null)
+        if (Root == null)
         {
             throw new InvalidOperationException("The list is empty");
         }
@@ -56,24 +111,24 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     
     public void RemoveFirst()
     {
-        if (root == null)
+        if (Root == null)
         {
             throw new InvalidOperationException("The list is empty");
         }
 
-        if (root != null && root.Next == null)
+        if (Root != null && Root.Next == null)
         {
-            root = (last = default) as DoubleNode;
+            Root = (last = default) as DoubleNode;
         }
         else
         {
-            var node = (DoubleNode)root.Next!;
-            root = node;
+            var node = (DoubleNode)Root.Next!;
+            Root = node;
             node!.Prev = default;
         }
 
         Count--;
-        OnListChanged(ChangeType.Remove, root!.Value, 0);
+        OnListChanged(ChangeType.Remove, Root!.Value, 0);
     }
     
     public void RemoveLast()
@@ -83,7 +138,7 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
             throw new InvalidOperationException("The list is empty");
         }
 
-        Node? current = root;
+        Node? current = Root;
         while (current!.Next != default)
         {
             current = current.Next;
@@ -100,14 +155,14 @@ public class DoubleLinkedList<T> : MyLinkedList<T>
     
     public override void Clear()
     {
-        root = default;
+        Root = default;
         Count = 0;
         OnListChanged(ChangeType.Clear, default, 0);
     }
     
     public override void PrintLinkedList()
     {
-        Node? current = root;
+        Node? current = Root;
         while (current != default)
         {
             Console.Write(current.Value! + " -> ");
