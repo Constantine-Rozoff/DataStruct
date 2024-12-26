@@ -1,9 +1,49 @@
-﻿using DataStructInterfaces;
+﻿using System.Collections;
+using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class MyList<T> : IMyList<T>
+public class MyList<T> : IMyList<T>, IEnumerable<T>
 {
+    public IEnumerator<T> GetEnumerator()
+    {
+        return new MyListIterator(this);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+    private class MyListIterator : IEnumerator<T>
+    {
+        private readonly MyList<T> _list;
+        private int _index = -1;
+
+        public T Current => _list[_index]!;
+        
+        object IEnumerator.Current => Current!;
+        
+        public MyListIterator(MyList<T> list)
+        {
+            this._list = list;
+        }
+        
+        public bool MoveNext()
+        {
+            _index++;
+            return _index < _list.Count;
+        }
+
+        public void Reset()
+        {
+            _index = -1;
+        }
+        
+        public void Dispose()
+        {
+        }
+    }
+    
     private T?[] _innerArray = new T[10];
     public int Count { get; private set; }
 

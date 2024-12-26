@@ -1,5 +1,4 @@
 using DataStructLib;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework;
 
 namespace Tests;
@@ -176,5 +175,71 @@ public class ListTests
         
         //assert
         Assert.That(array.Length, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
     }
 }
