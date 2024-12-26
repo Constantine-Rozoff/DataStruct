@@ -1,11 +1,52 @@
+using System.Collections;
 using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class MyStack<T> : IMyCollection<T>
+public class MyStack<T> : IMyCollection<T>, IEnumerable<T>
 {
     public int Count { get; private set; }
     private List<T> items;
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        return new MyStackIterator(this);
+    }
+
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+    
+    private class MyStackIterator : IEnumerator<T>
+    {
+        private readonly MyStack<T> _stack;
+        private int _index = -1;
+
+        public T Current => _stack[_index]!;
+        
+        object IEnumerator.Current => Current!;
+        
+        public MyStackIterator(MyStack<T> stack)
+        {
+            this._stack = stack;
+        }
+        
+        public bool MoveNext()
+        {
+            _index++;
+            return _index < _stack.Count;
+        }
+
+        public void Reset()
+        {
+            _index = -1;
+        }
+        
+        public void Dispose()
+        {
+        }
+    }
     
     public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
     
