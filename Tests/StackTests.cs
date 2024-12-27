@@ -121,4 +121,70 @@ public class StackTests
         Assert.That(stack.Count, Is.EqualTo(0));
         //Assert.That(stack.IsEmpty(), Is.True); - TODO: Why IsEmpty works incorrectly and returns false when Count is 0
     }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var stack = new MyStack<int>();
+        
+        stack.Push(5);
+        stack.Push(10);
+        stack.Push(25);
+        
+        //act
+        var query = stack.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var stack = new MyStack<int>();
+        
+        stack.Push(5);
+        stack.Push(10);
+        stack.Push(25);
+        
+        //act
+        var query = stack.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+        
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack.MyTakeWhile(item => item > 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 10), Is.True);
+    }
 }
