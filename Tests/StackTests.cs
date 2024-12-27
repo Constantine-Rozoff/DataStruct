@@ -165,4 +165,26 @@ public class StackTests
         //assert
         Assert.That(query.All(item => item > 5), Is.True);
     }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+        
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack.MyTakeWhile(item => item > 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 10), Is.True);
+    }
 }

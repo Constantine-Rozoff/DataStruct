@@ -11,4 +11,14 @@ public static class Extentions
     {
         return new SkipWhileEnumerable<T>(collection, filter);
     }
+    
+    public static IEnumerable<T> MyTakeWhile<T>(this IEnumerable<T> collection, Func<T, bool> filter)
+    {
+        return new TakeWhileEnumerable<T>(collection, filter);
+    }
+    
+    public static IEnumerable<T> MyFirstOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> filter)
+    {
+        return new FirstOrDefaultEnumerable<T>(collection, filter);
+    }
 }

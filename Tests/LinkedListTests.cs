@@ -224,4 +224,37 @@ public class LinkedListTests
         //assert
         Assert.That(query.All(item => item > 5), Is.True);
     }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.MyTakeWhile(item => item >= 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item >= 10), Is.True);
+    }
 }

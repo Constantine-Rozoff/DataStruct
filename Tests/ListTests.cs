@@ -242,4 +242,73 @@ public class ListTests
         //assert
         Assert.That(query.All(item => item > 5), Is.True);
     }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.MyTakeWhile(item => item >= 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item >= 10), Is.True);
+    }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MySkipWhile(item => item >= 10)
+            .MyFirstOrDefault(item => item < 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.First(), Is.EqualTo(default));
+    }
 }
