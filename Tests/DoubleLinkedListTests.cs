@@ -287,4 +287,64 @@ public class DoubleLinkedListTests
         //assert
         Assert.That(query.All(item => item >= 10), Is.True);
     }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList
+            .Filter(item => item < 10)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(8));
+    }
 }

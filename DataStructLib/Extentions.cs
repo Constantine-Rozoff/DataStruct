@@ -17,8 +17,45 @@ public static class Extentions
         return new TakeWhileEnumerable<T>(collection, filter);
     }
     
-    public static IEnumerable<T> MyFirstOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> filter)
+    public static T MyFirstOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> filter = null)
     {
-        return new FirstOrDefaultEnumerable<T>(collection, filter);
+        foreach (var item in collection)
+        {
+            if (filter != null)
+            {
+                if (filter(item))
+                {
+                    return item;
+                }
+            }
+            else
+            {
+                return item;
+            }
+        }
+        
+        return default!;
+    }
+
+    public static T MyLastOrDefault<T>(this IEnumerable<T> collection, Func<T, bool> filter = null)
+    {
+        T lastItem = default!; 
+        
+        foreach (var item in collection)
+        {
+            if (filter != null)
+            {
+                if (filter(item))
+                {
+                    lastItem = item;
+                }
+            }
+            else
+            {
+                lastItem = item;
+            }
+        }
+
+        return lastItem;
     }
 }

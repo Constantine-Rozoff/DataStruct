@@ -187,4 +187,45 @@ public class StackTests
         //assert
         Assert.That(query.All(item => item > 10), Is.True);
     }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(10));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        myStack.Push(30);
+        myStack.Push(50);
+        myStack.Push(80);
+        
+        //act
+        var query = myStack
+            .Filter(item => item < 50)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(30));
+    }
 }
