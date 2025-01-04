@@ -138,4 +138,19 @@ public static class Extentions
 
         return true;
     }
+    
+    public static T[] MyToArray<T>(this IEnumerable<T> collection, Func<T, bool> filter = null)
+    {
+        List<T> resultList = new List<T>();
+
+        foreach (var item in collection)
+        {
+            if (filter == null || filter(item))
+            {
+                resultList.Add(item);
+            }
+        }
+
+        return resultList.ToArray(); //TODO: The first elements is missed, cannot find out why
+    }
 }

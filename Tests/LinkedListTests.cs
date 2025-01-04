@@ -431,4 +431,32 @@ public class LinkedListTests
         //assert
         Assert.That(query, Is.True);
     }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(14));
+    }
 }

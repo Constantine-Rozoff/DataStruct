@@ -461,4 +461,32 @@ public class DoubleLinkedListTests
         //assert
         Assert.That(query, Is.True);
     }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myDoubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myDoubleList.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(14));
+    }
 }

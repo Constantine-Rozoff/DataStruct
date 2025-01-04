@@ -303,4 +303,21 @@ public class StackTests
         //assert
         Assert.That(query, Is.True);
     }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(3));
+    }
 }
