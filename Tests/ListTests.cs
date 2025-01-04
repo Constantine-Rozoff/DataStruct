@@ -1,3 +1,4 @@
+using System.Collections;
 using DataStructLib;
 using NUnit.Framework;
 
@@ -334,5 +335,59 @@ public class ListTests
         
         //assert
         Assert.That(query, Is.EqualTo(8));
+    }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MySelect(item => item > 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(12, 14));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new MyList<int> { 1, 2, 3 },
+            new MyList<int> { 4, 5, 6 },
+            new MyList<int> { 7, 8, 9 }
+        };
+        
+        
+        //act
+        var query = lists.SelectMany(list => list);
+            
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
     }
 }

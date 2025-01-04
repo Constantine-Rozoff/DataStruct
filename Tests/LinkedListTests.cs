@@ -317,4 +317,58 @@ public class LinkedListTests
         //assert
         Assert.That(query, Is.EqualTo(8));
     }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MySelect(item => item > 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(12, 14));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new MyLinkedList<int> { 1, 2, 3 },
+            new MyLinkedList<int> { 4, 5, 6 },
+            new MyLinkedList<int> { 7, 8, 9 }
+        };
+        
+        
+        //act
+        var query = lists.SelectMany(list => list);
+            
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
+    }
 }

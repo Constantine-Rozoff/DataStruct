@@ -228,4 +228,41 @@ public class StackTests
         //assert
         Assert.That(query, Is.EqualTo(30));
     }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .MySelect(item => item >= 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(10, 25));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new MyStack<int> [1,2,3],
+            new MyStack<int> [4,5,6],
+            new MyStack<int> [7,8,9]
+        };
+        
+        
+        //act
+        //var query = lists.SelectMany<int>(list => list);
+        
+        //assert
+        //Assert.That(query, Is.All.InRange(1, 9)); //TODO: Cannot make it work
+    }
 }
