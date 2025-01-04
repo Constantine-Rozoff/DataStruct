@@ -265,4 +265,42 @@ public class StackTests
         //assert
         //Assert.That(query, Is.All.InRange(1, 9)); //TODO: Cannot make it work
     }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 10);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
 }

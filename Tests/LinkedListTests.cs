@@ -371,4 +371,64 @@ public class LinkedListTests
         //assert
         Assert.That(query, Is.All.InRange(1, 9));
     }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 12);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
 }

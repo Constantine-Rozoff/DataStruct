@@ -86,16 +86,16 @@ public static class Extentions
     
     public static IEnumerable<TResult> MySelectMany<TSource, TResult>(
         this IEnumerable<TSource> collection,
-        Func<TSource, IEnumerable<TResult>> selector)
+        Func<TSource, IEnumerable<TResult>> filter)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
-        if (selector == null) throw new ArgumentNullException(nameof(selector));
+        if (filter == null) throw new ArgumentNullException(nameof(filter));
 
         var results = new List<TResult>();
 
         foreach (var item in collection)
         {
-            var projectedItems = selector(item);
+            var projectedItems = filter(item);
             if (projectedItems != null)
             {
                 results.AddRange(projectedItems);
@@ -103,5 +103,39 @@ public static class Extentions
         }
 
         return results;
+    }
+    
+    public static bool MyAny<TSource>(this IEnumerable<TSource> collection, Func<TSource, bool> filter)
+    {
+        if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+        if (filter == null) throw new ArgumentNullException(nameof(filter));
+
+        foreach (TSource element in collection)
+        {
+            if (filter(element))
+            {
+                return true;
+            }
+        }
+
+        return false;
+    }
+    
+    public static bool MyAll<TSource>(this IEnumerable<TSource> collection, Func<TSource, bool> filter)
+    {
+        if (collection == null) throw new ArgumentNullException(nameof(collection));
+
+        if (filter == null) throw new ArgumentNullException(nameof(filter));
+
+        foreach (TSource element in collection)
+        {
+            if (!filter(element))
+            {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
