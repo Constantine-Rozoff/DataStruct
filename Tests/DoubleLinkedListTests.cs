@@ -391,7 +391,7 @@ public class DoubleLinkedListTests
         
         
         //act
-        var query = lists.SelectMany(list => list);
+        var query = lists.MySelectMany(item => item >= 0);
             
         foreach (var item in query)
         {

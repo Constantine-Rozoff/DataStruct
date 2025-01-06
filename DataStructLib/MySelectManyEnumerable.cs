@@ -2,12 +2,12 @@ using System.Collections;
 
 namespace DataStructLib;
 
-public class MySelectEnumerable<T> : IEnumerable<T>
+public class MySelectManyEnumerable<T> : IEnumerable<T>
 {
     private readonly IEnumerable<T> collection;
     private readonly Func<T, bool> selector;
 
-    public MySelectEnumerable(IEnumerable<T> collection, Func<T, bool> selector)
+    public MySelectManyEnumerable(IEnumerable<T> collection, Func<T, bool> selector)
     {
         this.collection = collection;
         this.selector = selector;

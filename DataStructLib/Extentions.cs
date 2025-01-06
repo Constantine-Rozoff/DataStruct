@@ -59,50 +59,22 @@ public static class Extentions
         return lastItem;
     }
     
-    public static IEnumerable<T> MySelect<T>(this IEnumerable<T> collection, Func<T, bool> filter = null)
+    public static IEnumerable<T> MySelect<T>(this IEnumerable<T> collection, Func<T, bool> selector)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
         
-        var results = new List<T>();
-        int index = -1;
-        
-        foreach (var item in collection)
-        {
-            if (filter != null)
-            {
-                if (filter(item))
-                {
-                    results.Add(item);
-                }
-            }
-            else
-            {
-                results.Add(item);
-            }
-        }
+        var selectCollection = new MySelectEnumerable<T>(collection, selector);
 
-        return new MySelectEnumerable<T>(results, filter!);
+        return selectCollection.Where(selector);
     }
     
-    public static IEnumerable<TResult> MySelectMany<TSource, TResult>(
-        this IEnumerable<TSource> collection,
-        Func<TSource, IEnumerable<TResult>> filter)
+    public static IEnumerable<T> MySelectMany<T>(this IEnumerable<IEnumerable<T>> collection, Func<T, bool> selector)
     {
         if (collection == null) throw new ArgumentNullException(nameof(collection));
-        if (filter == null) throw new ArgumentNullException(nameof(filter));
+        
+        //var selectCollection = new MySelectManyEnumerable<T>(collection, selector);
 
-        var results = new List<TResult>();
-
-        foreach (var item in collection)
-        {
-            var projectedItems = filter(item);
-            if (projectedItems != null)
-            {
-                results.AddRange(projectedItems);
-            }
-        }
-
-        return results;
+        return collection.SelectMany(innerCollection => innerCollection.Where(selector));
     }
     
     public static bool MyAny<TSource>(this IEnumerable<TSource> collection, Func<TSource, bool> filter)
@@ -139,16 +111,13 @@ public static class Extentions
         return true;
     }
     
-    public static T[] MyToArray<T>(this IEnumerable<T> collection, Func<T, bool> filter = null)
+    public static T[] MyToArray<T>(this IEnumerable<T> collection)
     {
         List<T> resultList = new List<T>();
 
         foreach (var item in collection)
         {
-            if (filter == null || filter(item))
-            {
-                resultList.Add(item);
-            }
+            resultList.Add(item);
         }
 
         return resultList.ToArray(); //TODO: The first elements is missed, cannot find out why

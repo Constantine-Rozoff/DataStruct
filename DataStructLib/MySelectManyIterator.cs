@@ -2,7 +2,7 @@ using System.Collections;
 
 namespace DataStructLib;
 
-public class MySelectIterator<T> : IEnumerator<T>
+public class MySelectManyIterator<T> : IEnumerator<T>
 {
     private readonly IEnumerator<T> _baseIterator;
     private readonly Func<T, bool> _selector;
@@ -10,7 +10,7 @@ public class MySelectIterator<T> : IEnumerator<T>
     
     object IEnumerator.Current => Current;
 
-    public MySelectIterator(IEnumerator<T> baseIterator, Func<T, bool> selector)
+    public MySelectManyIterator(IEnumerator<T> baseIterator, Func<T, bool> selector)
     {
         _baseIterator = baseIterator;
         _selector = selector;

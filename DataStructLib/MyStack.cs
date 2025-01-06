@@ -84,8 +84,8 @@ public class MyStack<T> : IMyCollection<T>, IEnumerable<T>
             items[i] = (T)value;
         }
     }
-    
-    void IMyCollection<T>.Add(T item)
+
+    public void Add(T item)
     {
         Push(item);
         OnListChanged(ChangeType.Add, item, Count - 1);

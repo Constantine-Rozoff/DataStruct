@@ -251,19 +251,24 @@ public class StackTests
     public void MySelectManyTest()
     {
         //arrange
+        
         var lists = new[]
         {
-            new MyStack<int> [1,2,3],
-            new MyStack<int> [4,5,6],
-            new MyStack<int> [7,8,9]
+            new MyStack<int> { 1, 2, 3 },
+            new MyStack<int> { 4, 5, 6 },
+            new MyStack<int> { 7, 8, 9 }
         };
         
-        
         //act
-        //var query = lists.SelectMany<int>(list => list);
+        var query = lists.MySelectMany<int>(item => item > 5);
+        
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
         
         //assert
-        //Assert.That(query, Is.All.InRange(1, 9)); //TODO: Cannot make it work
+        Assert.That(query, Is.All.InRange(1, 9));
     }
     
     [Test]
