@@ -68,13 +68,9 @@ public static class Extentions
         return selectCollection.Where(selector);
     }
     
-    public static IEnumerable<T> MySelectMany<T>(this IEnumerable<IEnumerable<T>> collection, Func<T, bool> selector)
+    public static IEnumerable<TResult> MySelectMany<T, TResult>(this IEnumerable<T> collection, Func<T, IEnumerable<TResult>> selector)
     {
-        if (collection == null) throw new ArgumentNullException(nameof(collection));
-        
-        //var selectCollection = new MySelectManyEnumerable<T>(collection, selector);
-
-        return collection.SelectMany(innerCollection => innerCollection.Where(selector));
+        return new MySelectManyEnumerable<T, TResult>(collection, selector);
     }
     
     public static bool MyAny<TSource>(this IEnumerable<TSource> collection, Func<TSource, bool> filter)

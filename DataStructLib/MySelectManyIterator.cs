@@ -2,35 +2,48 @@ using System.Collections;
 
 namespace DataStructLib;
 
-public class MySelectManyIterator<T> : IEnumerator<T>
+public class MySelectManyIterator<T, TResult> : IEnumerator<TResult>
 {
-    private readonly IEnumerator<T> _baseIterator;
-    private readonly Func<T, bool> _selector;
-    public T Current => _baseIterator.Current;
-    
-    object IEnumerator.Current => Current;
+    private readonly IEnumerator<T> collection;
+    private readonly Func<T, IEnumerable<TResult>> selector;
+    private IEnumerator<TResult> currentCollection;
+    public TResult Current { get; private set; }
+    object? IEnumerator.Current => collection.Current;
 
-    public MySelectManyIterator(IEnumerator<T> baseIterator, Func<T, bool> selector)
+    public MySelectManyIterator(IEnumerator<T> collection, Func<T, IEnumerable<TResult>> selector)
     {
-        _baseIterator = baseIterator;
-        _selector = selector;
+        this.collection = collection;
+        this.selector = selector;
     }
     
     public bool MoveNext()
     {
-        start: var result = _baseIterator.MoveNext();
-        if (!result)
+        if (currentCollection == null!)
         {
-            return false;
-        }
-        
-        if (_selector(_baseIterator.Current))
-        {
+            l1: var result = collection.MoveNext();
+            if (!result) return false;
+
+            var current = collection.Current;
+            currentCollection = selector(current).GetEnumerator();
+            
+            var result2 = currentCollection.MoveNext();
+            if (!result2)
+            {
+                currentCollection = null;
+                goto l1;
+            }
+            
             return true;
         }
         else
         {
-            goto start;
+            var result3 = currentCollection.MoveNext();
+            if (!result3)
+            {
+                currentCollection = null;
+            }
+
+            return true;
         }
     }
 

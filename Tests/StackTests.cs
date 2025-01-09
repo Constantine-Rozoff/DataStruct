@@ -260,7 +260,7 @@ public class StackTests
         };
         
         //act
-        var query = lists.MySelectMany<int>(item => item > 5);
+        var query = lists.MySelectMany(item => item);
         
         foreach (var item in query)
         {

@@ -34,6 +34,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IEnumerable<T>
     {
         private readonly Node? _firstNode;
         private Node _node;
+        private bool initState = true;
 
         public LinkedListIterator(Node node)
         {
@@ -46,9 +47,14 @@ public class MyLinkedList<T> : IMyLinkedList<T>, IEnumerable<T>
 
         public bool MoveNext()
         {
-            var next = _node.Next;
-            _node = next;
-            return next != null;
+            if (initState)
+            {
+                initState = false;
+                return true;
+            }
+            
+            _node = _node.Next;
+            return _node != null;
         }
 
         public void Reset()

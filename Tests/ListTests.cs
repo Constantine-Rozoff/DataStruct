@@ -380,7 +380,7 @@ public class ListTests
         
         
         //act
-        var query = lists.MySelectMany(item => item > 5);
+        var query = lists.MySelectMany(item => item);
             
         foreach (var item in query)
         {

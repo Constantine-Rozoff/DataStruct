@@ -32,6 +32,7 @@ public class DoubleLinkedList<T> : MyLinkedList<T>, IEnumerable<T>
         private readonly DoubleNode? _firstNode;
         private DoubleNode _node;
         private DoubleNode _prev;
+        private bool _initState = true;
 
         public DoubleLinkedListIterator(DoubleNode node, DoubleNode prev = null)
         {
@@ -45,6 +46,12 @@ public class DoubleLinkedList<T> : MyLinkedList<T>, IEnumerable<T>
 
         public bool MoveNext()
         {
+            if (_initState)
+            {
+                _initState = false;
+                return true;
+            }
+            
             if (_node == null)
                 return false;
             

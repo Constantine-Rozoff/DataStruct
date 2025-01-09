@@ -2,20 +2,20 @@ using System.Collections;
 
 namespace DataStructLib;
 
-public class MySelectManyEnumerable<T> : IEnumerable<T>
+public class MySelectManyEnumerable<T, TResult> : IEnumerable<TResult>
 {
     private readonly IEnumerable<T> collection;
-    private readonly Func<T, bool> selector;
+    private readonly Func<T, IEnumerable<TResult>> selector;
 
-    public MySelectManyEnumerable(IEnumerable<T> collection, Func<T, bool> selector)
+    public MySelectManyEnumerable(IEnumerable<T> collection, Func<T, IEnumerable<TResult>> selector)
     {
         this.collection = collection;
         this.selector = selector;
     }
 
-    public IEnumerator<T> GetEnumerator()
+    public IEnumerator<TResult> GetEnumerator()
     {
-        return new MySelectIterator<T>(collection.GetEnumerator(), selector);
+        return new MySelectManyIterator<T, TResult>(collection.GetEnumerator(), selector);
     }
 
     IEnumerator IEnumerable.GetEnumerator()
