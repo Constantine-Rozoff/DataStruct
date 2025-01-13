@@ -1,5 +1,5 @@
+using System.Collections;
 using DataStructLib;
-using Microsoft.VisualStudio.TestPlatform.CommunicationUtilities;
 using NUnit.Framework;
 
 namespace Tests;
@@ -176,5 +176,306 @@ public class ListTests
         
         //assert
         Assert.That(array.Length, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.MyTakeWhile(item => item >= 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item >= 10), Is.True);
+    }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item < 10)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(8));
+    }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MySelect(item => item > 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(12, 14));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new MyList<int> { 1, 2, 3 },
+            new MyList<int> { 4, 5, 6 },
+            new MyList<int> { 7, 8, 9 }
+        };
+        
+        
+        //act
+        var query = lists.MySelectMany(item => item);
+            
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
+    }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 12);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myList = new MyList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myList.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(14));
     }
 }

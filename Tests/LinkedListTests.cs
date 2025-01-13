@@ -158,4 +158,305 @@ public class LinkedListTests
         //assert
         Assert.That(array.Length, Is.EqualTo(2));
     }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.MyTakeWhile(item => item >= 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item >= 10), Is.True);
+    }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item < 10)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(8));
+    }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MySelect(item => item > 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(12, 14));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new MyLinkedList<int> { 1, 2, 3 },
+            new MyLinkedList<int> { 4, 5, 6 },
+            new MyLinkedList<int> { 7, 8, 9 }
+        };
+        
+        
+        //act
+        var query = lists.MySelectMany(item => item);
+            
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
+    }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 12);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myLinkedList = new MyLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myLinkedList.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(14));
+    }
 }

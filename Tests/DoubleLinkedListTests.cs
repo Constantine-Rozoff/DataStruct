@@ -188,4 +188,305 @@ public class DoubleLinkedListTests
         Assert.That(doubleList.Contains(55), Is.False);
         Assert.That(doubleList.Count, Is.EqualTo(0));
     }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList.MyTakeWhile(item => item >= 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item >= 10), Is.True);
+    }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(2));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var doubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = doubleList
+            .Filter(item => item < 10)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(8));
+    }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myDoubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myDoubleList
+            .Filter(item => item % 2 == 0)
+            .MySelect(item => item > 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(12, 14));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        var lists = new[]
+        {
+            new DoubleLinkedList<int> { 1, 2, 3 },
+            new DoubleLinkedList<int> { 4, 5, 6 },
+            new DoubleLinkedList<int> { 7, 8, 9 }
+        };
+        
+        
+        //act
+        var query = lists.MySelectMany(item => item);
+            
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
+    }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myDoubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myDoubleList
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 12);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myDoubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myDoubleList
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myDoubleList = new DoubleLinkedList<int>{
+            1,
+            2,
+            3,
+            5,
+            6,
+            14,
+            7,
+            4,
+            8,
+            10,
+            9,
+            11,
+            13,
+            12
+        };
+        
+        //act
+        var query = myDoubleList.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(14));
+    }
 }

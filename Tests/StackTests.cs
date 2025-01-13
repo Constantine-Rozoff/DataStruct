@@ -121,4 +121,208 @@ public class StackTests
         Assert.That(stack.Count, Is.EqualTo(0));
         //Assert.That(stack.IsEmpty(), Is.True); - TODO: Why IsEmpty works incorrectly and returns false when Count is 0
     }
+    
+    [Test]
+    public void FilterIteratorTest()
+    {
+        //arrange
+        var stack = new MyStack<int>();
+        
+        stack.Push(5);
+        stack.Push(10);
+        stack.Push(25);
+        
+        //act
+        var query = stack.Filter(item => item % 2 == 0);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item % 2 == 0), Is.True);
+    }
+    
+    [Test]
+    public void SkipWhileIteratorTest()
+    {
+        //arrange
+        var stack = new MyStack<int>();
+        
+        stack.Push(5);
+        stack.Push(10);
+        stack.Push(25);
+        
+        //act
+        var query = stack.MySkipWhile(item => item <= 5);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 5), Is.True);
+    }
+    
+    [Test]
+    public void TakeWhileIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+        
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack.MyTakeWhile(item => item > 10);
+
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query.All(item => item > 10), Is.True);
+    }
+    
+    [Test]
+    public void FirstOrDefaultIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyFirstOrDefault();
+        
+        //assert
+        Assert.That(query, Is.EqualTo(10));
+    }
+    
+    [Test]
+    public void LastOrDefaultIteratorTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        myStack.Push(30);
+        myStack.Push(50);
+        myStack.Push(80);
+        
+        //act
+        var query = myStack
+            .Filter(item => item < 50)
+            .MyLastOrDefault(item => item % 2 == 0);
+        
+        //assert
+        Assert.That(query, Is.EqualTo(30));
+    }
+    
+    [Test]
+    public void MySelectTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .MySelect(item => item >= 10);
+        
+        //assert
+        Assert.That(query, Is.All.InRange(10, 25));
+    }
+    
+    [Test]
+    public void MySelectManyTest()
+    {
+        //arrange
+        
+        var lists = new[]
+        {
+            new MyStack<int> { 1, 2, 3 },
+            new MyStack<int> { 4, 5, 6 },
+            new MyStack<int> { 7, 8, 9 }
+        };
+        
+        //act
+        var query = lists.MySelectMany(item => item);
+        
+        foreach (var item in query)
+        {
+            Console.WriteLine(item);
+        }
+        
+        //assert
+        Assert.That(query, Is.All.InRange(1, 9));
+    }
+    
+    [Test]
+    public void MyAnyTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyAny(item => item == 10);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyAllTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack
+            .Filter(item => item % 2 == 0)
+            .MyAll(item => item > 0);
+        
+        //assert
+        Assert.That(query, Is.True);
+    }
+    
+    [Test]
+    public void MyToArrayTest()
+    {
+        //arrange
+        var myStack = new MyStack<int>();
+            
+        myStack.Push(5);
+        myStack.Push(10);
+        myStack.Push(25);
+        
+        //act
+        var query = myStack.MyToArray();
+        
+        //assert
+        Assert.That(query.Length, Is.EqualTo(3));
+    }
 }

@@ -1,8 +1,9 @@
+using System.Collections;
 using DataStructInterfaces;
 
 namespace DataStructLib;
 
-public class MyLinkedList<T> : IMyLinkedList<T>
+public class MyLinkedList<T> : IMyLinkedList<T>, IEnumerable<T>
 {
     protected class Node
     {
@@ -16,8 +17,55 @@ public class MyLinkedList<T> : IMyLinkedList<T>
         }
     }
 
-    protected Node? root;
-    protected Node? last;
+    protected Node? Root { get;  set; }
+    protected Node? last { get;  set; }
+    
+    public IEnumerator<T> GetEnumerator()
+    {
+        return new LinkedListIterator(Root!);
+    }
+        
+    IEnumerator IEnumerable.GetEnumerator()
+    {
+        return GetEnumerator();
+    }
+        
+    private class LinkedListIterator : IEnumerator<T>
+    {
+        private readonly Node? _firstNode;
+        private Node _node;
+        private bool initState = true;
+
+        public LinkedListIterator(Node node)
+        {
+            _firstNode = _node = node;
+        }
+
+        public T Current => _node.Value!;
+
+        object IEnumerator.Current => Current!;
+
+        public bool MoveNext()
+        {
+            if (initState)
+            {
+                initState = false;
+                return true;
+            }
+            
+            _node = _node.Next;
+            return _node != null;
+        }
+
+        public void Reset()
+        {
+            _node = _firstNode!;
+        }
+
+        public void Dispose()
+        {
+        }
+    }
 
     public event EventHandler<ListChangedEventArgs<T>>? ListChanged;
     
@@ -30,7 +78,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
 
     public MyLinkedList()
     {
-        root = default;
+        Root = default;
         last = default;
     }
 
@@ -40,9 +88,9 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     {
         get
         {
-            if (root == default)
+            if (Root == default)
                 throw new InvalidOperationException("Empty Linked List");
-            return root.Value;
+            return Root.Value;
         }
     }
 
@@ -50,10 +98,10 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     {
         get
         {
-            if (root == null)
+            if (Root == null)
                 throw new InvalidOperationException("Список пуст.");
 
-            Node current = root;
+            Node current = Root;
             while (current.Next != default)
             {
                 current = current.Next;
@@ -70,8 +118,8 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     public void AddFirst(T value)
     {
         var newNode = CreateNode(value);
-        newNode.Next = root;
-        root = newNode;
+        newNode.Next = Root;
+        Root = newNode;
         Count++;
         OnListChanged(ChangeType.Add, value, Count - 1);
     }
@@ -80,14 +128,14 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     {
         Node newNode = CreateNode(value);
 
-        if (root == default)
+        if (Root == default)
         {
             AddFirst(value);
-            last = root;
+            last = Root;
         }
         else
         {
-            Node current = root;
+            Node current = Root;
             while (current.Next != default)
             {
                 current = current.Next;
@@ -115,12 +163,12 @@ public class MyLinkedList<T> : IMyLinkedList<T>
 
         if (index == 0)
         {
-            newNode.Next = root;
-            root = newNode;
+            newNode.Next = Root;
+            Root = newNode;
             return;
         }
         
-        current = root;
+        current = Root;
         while (current != default && currentIndex < index - 1)
         {
             current = current.Next;
@@ -140,7 +188,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
 
     public virtual bool Contains(T value)
     {
-        Node current = root;
+        Node current = Root;
         while (current != default)
         {
             if (current.Value!.Equals(value))
@@ -155,7 +203,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     
     public virtual void Clear()
     {
-        root = default;
+        Root = default;
         Count = 0;
         OnListChanged(ChangeType.Clear, default, 0);
     }
@@ -163,7 +211,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     public virtual T[] ToArray()
     {
         int count = 0;
-        Node current = root;
+        Node current = Root;
         while (current != default)
         {
             count++;
@@ -172,7 +220,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
 
         T[] array = new T[count];
 
-        current = root;
+        current = Root;
         int index = 0;
         while (current != default)
         {
@@ -186,7 +234,7 @@ public class MyLinkedList<T> : IMyLinkedList<T>
     
     public virtual void PrintLinkedList()
     {
-        Node current = root;
+        Node current = Root;
         while (current != default)
         {
             Console.Write(current.Value! + " -> ");
