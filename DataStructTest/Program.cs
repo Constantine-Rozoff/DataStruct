@@ -208,5 +208,88 @@ class Program
         {
             Console.WriteLine($"{entry.Author}: {entry.Count}");
         }
+        
+        Console.WriteLine("---------------7-------------");
+        
+        //#7
+        var nameLength = data
+            .OfType<Film>() 
+            .SelectMany(f => f.Actors)
+            .Select(a => a.Name.Length - 1);
+        
+        foreach (var element in nameLength)
+        {
+            Console.WriteLine(element);
+        }
+        
+        Console.WriteLine("---------------8-------------");
+        
+        //#8
+        var books = data
+            .OfType<Book>()
+            .OrderBy(book => book.Author)
+            .ThenBy(p => p.Pages)
+            .Select(book => book.Name);
+        
+        foreach (var book in books)
+        {
+            Console.WriteLine(book);
+        }
+        
+        Console.WriteLine("---------------9-------------");
+        
+        //#9
+        var actorMovies = data
+            .OfType<Film>() 
+            .SelectMany(film => film.Actors, (film, actor) => new { ActorName = actor.Name, FilmName = film.Name })
+            .GroupBy(pair => pair.ActorName) 
+            .OrderBy(group => group.Key);
+        
+        foreach (var group in actorMovies)
+        {
+            Console.WriteLine($"{group.Key}: {string.Join(", ", group.Select(f => f.FilmName))}");
+        }
+        
+        Console.WriteLine("---------------10-------------");
+        
+        //#10
+        var totalSum = data
+            .SelectMany(item =>
+            {
+                if (item is Book book)
+                    return new[] { book.Pages };
+                if (item is List<int> intList)
+                    return intList;
+                return Enumerable.Empty<int>();
+            })
+            .Sum();
+
+        Console.WriteLine(totalSum);
+        
+        Console.WriteLine("---------------11-------------");
+        
+        //#11
+        var authorBooks = data
+            .OfType<Book>() 
+            .GroupBy(book => book.Author) 
+            .ToDictionary(group => group.Key, group => group.Select(book => book.Name).ToList()); 
+
+        foreach (var entry in authorBooks)
+        {
+            Console.WriteLine($"{entry.Key}: {string.Join(", ", entry.Value)}");
+        }
+        
+        Console.WriteLine("---------------12-------------");
+        
+        //#12
+        var filmsWithMattDamon = data
+            .OfType<Film>() 
+            .Where(film => film.Actors.Any(actor => actor.Name == "Matt Damon")) 
+            .Select(film => film.Name);
+        
+        foreach (var film in filmsWithMattDamon)
+        {
+            Console.WriteLine(film);
+        }
     }
 }
